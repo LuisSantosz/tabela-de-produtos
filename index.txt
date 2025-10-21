@@ -647,3 +647,9 @@ sortButtons.forEach(btn => {
 </script>
 </body>
 </html>
+
+
+--status-ativo: #006400;
+    --status-inativo: 	#FF0000;
+    --status-promocional: #FF1493;
+    --status-personalizada: #00008B;
