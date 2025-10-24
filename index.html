@@ -351,7 +351,7 @@ const produtosIniciais = [
   { descricao: "EW-SG2W CABECAS DE ESCOVA SONIC GENERATION WHITENING", sku: "100-189", status: "Ativo" },
   { descricao: "EW-SG2A CABECAS DE ESCOVA DE DENTES SONIC GENERATION WINNER", sku: "100-192", status: "Ativo" },
   { descricao: "EW-SG2B CABECAS DE ESCOVA DE DENTES SONIC TARGET & FOCUS", sku: "100-193", status: "Inativo" },
-  { descricao: "MS-ESCOVA DE DENTES BLACK WHITENING LOOP SINGLE", sku: "100-199", status: "Ativo" },
+  { descricao: "EW-SG8 ESCOVA DE DENTES SONIC GENERATION HEALTH SUITE", sku: "100-199", status: "Ativo" },
   { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING PRETA", sku: "100-220", status: "Inativo" },
   { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR PRETA)", sku: "100-220A", status: "Inativo" },
   { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SSS (SACO COM 25 UNIDADES)", sku: "100-242", status: "Ativo" },
@@ -526,27 +526,45 @@ document.querySelectorAll('.sort-btn').forEach(btn => {
     const rows = Array.from(tbody.rows);
 
     rows.sort((ra, rb) => {
-      const a = ra.cells[col].textContent.trim();
-      const b = rb.cells[col].textContent.trim();
+      // Para a coluna Status (índice 2), obtemos o valor do select
+      let a, b;
+      
+      if (col === 2) {
+        // Para Status, pegamos o valor selecionado do elemento select
+        a = ra.cells[col].querySelector('select').value;
+        b = rb.cells[col].querySelector('select').value;
+      } else {
+        // Para outras colunas, pegamos o texto
+        a = ra.cells[col].textContent.trim();
+        b = rb.cells[col].textContent.trim();
+      }
 
       if (col === 1) { // SKU
         const an = parseInt(a.replace(/\D/g, ''), 10);
         const bn = parseInt(b.replace(/\D/g, ''), 10);
         return asc ? an - bn : bn - an;
       } else {        // Status
-        return asc
-          ? a.localeCompare(b, 'pt-BR', { sensitivity: 'base' })
-          : b.localeCompare(a, 'pt-BR', { sensitivity: 'base' });
+        // Ordenação por texto simples
+        if (asc) {
+          return a.localeCompare(b, 'pt-BR', { sensitivity: 'base' });
+        } else {
+          return b.localeCompare(a, 'pt-BR', { sensitivity: 'base' });
+        }
       }
     });
 
+    // Remove todas as linhas e adiciona na nova ordem
+    while (tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
+    }
+    
     rows.forEach(r => tbody.appendChild(r));
 
+    // Atualiza as setas de ordenação
     document.querySelectorAll('.sort-btn .arrow').forEach(el => el.textContent = '⇅');
     btn.querySelector('.arrow').textContent = asc ? '▲' : '▼';
   });
 });
-
 // ======= Busca com remoção de acentos =======
 const search = document.getElementById('search');
 const clearBtn = document.getElementById('clearBtn');
