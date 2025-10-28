@@ -2,1604 +2,661 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gestão de Pendências — Edel White</title>
-
-<!-- Firebase compat SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore-compat.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Produtos Edel+White 2025</title>
 <style>
-:root{
-  --red:#E30613;
-  --dark:#1E1E1E;
-  --muted:#6B7280;
-  --bg:#F6F7FB;
-  --surface:#FFFFFF;
-  --border:#E5E7EB;
-  --shadow:0 12px 30px rgba(0,0,0,.08);
-  --radius-lg:16px;
-  --radius-md:12px;
-  --radius-sm:8px;
-}
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-body{
-  font:15.5px/1.5 Inter,system-ui,Segoe UI,Roboto,Arial;
-  color:var(--dark);
-  background:var(--bg);
-}
-
-/* ===== LAYOUT GERAL ===== */
-.app{
-  display:grid;
-  grid-template-columns:300px 1fr;
-  min-height:100vh;
-}
-.sidebar{
-  background:linear-gradient(180deg,#fff,#FDF3F3);
-  border-right:1px solid var(--border);
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  transition:.3s;
-}
-.brand{
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-}
-.brand-logo{
-  width:56px;
-  height:56px;
-  border-radius:15px;
-  background:var(--red);
-  box-shadow:var(--shadow);
-  display:grid;
-  place-items:center;
-  padding:3px;
-}
-.brand-logo img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#fff;
-  border-radius:10px;
-  padding:1px;
-}
-.brand-name{
-  display:flex;
-  flex-direction:column;
-}
-.brand-name h1{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.2;
-  color:#111827;
-}
-.brand-name .sub{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.3;
-}
-
-/* Navegação lateral */
-.nav h2{
-  font-size:12px;
-  text-transform:uppercase;
-  color:var(--muted);
-  letter-spacing:.05em;
-  margin:8px 0 6px;
-}
-.seg-btn{
-  width:100%;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:12px;
-  text-align:left;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:pointer;
-  transition:.2s;
-  font-size:14px;
-  font-weight:500;
-}
-.seg-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow);
-}
-.seg-btn.active{
-  border-color:var(--red);
-  box-shadow:0 0 0 2px rgba(227,6,19,.2);
-}
-.chip{
-  font-size:12px;
-  color:#fff;
-  background:var(--red);
-  padding:2px 8px;
-  border-radius:999px;
-  min-width:20px;
-  text-align:center;
-  line-height:1.2;
-}
-
-.tools{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:auto;
-}
-.btn{
-  border:none;
-  border-radius:var(--radius-md);
-  padding:10px 14px;
-  font-weight:600;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.15s;
-  font-size:14px;
-}
-.btn.primary{
-  background:var(--red);
-  color:#fff;
-}
-.btn.primary:hover{
-  filter:brightness(.95);
-}
-.btn.neutral{
-  background:#fff;
-  border:1px solid var(--border);
-  color:var(--dark);
-}
-
-/* ===== MAIN / TOPBAR ===== */
-.main{
-  padding:22px;
-}
-.topbar{
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-.page-title{
-  font-size:26px;
-  font-weight:800;
-  line-height:1.2;
-  color:#111827;
-}
-.kpi-line{
-  font-size:13px;
-  color:var(--muted);
-}
-.hamburger{
-  display:none;
-  background:none;
-  border:none;
-  font-size:28px;
-  color:var(--red);
-  cursor:pointer;
-  line-height:1;
-}
-
-/* ===== BOARD / KANBAN ===== */
-.board{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:14px;
-  overflow-x:auto;
-  padding-bottom:10px;
-  scroll-snap-type:x mandatory;
-}
-.column{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:16px;
-  min-width:320px;
-  scroll-snap-align:start;
-  box-shadow:var(--shadow);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.column h3{
-  margin-bottom:4px;
-  font-size:18px;
-  font-weight:700;
-  color:#111827;
-}
-.help{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:4px;
-}
-.dropzone{
-  min-height:20px;
-}
-
-/* ===== CARD ===== */
-.card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:14px;
-  box-shadow:var(--shadow);
-  cursor:grab;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  animation:cardFade .2s ease;
-}
-
-@keyframes cardFade{
-  from{opacity:0;transform:translateY(4px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* Header do card - título e metadados na mesma linha */
-.card-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.card-title{
-  font-size:15px;
-  font-weight:600;
-  color:#111827;
-  flex:1;
-  min-width:200px;
-}
-
-.card-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-}
-
-.priority-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:12px;
-  line-height:1;
-  font-weight:600;
-  border-radius:999px;
-  padding:4px 8px;
-  color:#fff;
-  box-shadow:0 6px 16px rgba(0,0,0,.15);
-  animation:fadeIn .25s ease;
-  white-space:nowrap;
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(-2px) scale(.95);}
-  to{opacity:1;transform:translateY(0) scale(1);}
-}
-
-/* prioridade cores */
-.priority-alta{
-  background:#E30613;
-  box-shadow:0 6px 16px rgba(227,6,19,.4);
-  color:#fff;
-}
-.priority-media{
-  background:linear-gradient(90deg,#F59E0B 0%,#FBBF24 100%);
-  color:#111;
-  box-shadow:0 6px 16px rgba(251,191,36,.4);
-}
-.priority-baixa{
-  background:linear-gradient(90deg,#22C55E 0%,#86EFAC 100%);
-  color:#fff;
-  box-shadow:0 6px 16px rgba(16,185,129,.4);
-}
-
-.badge-overdue{
-  display:inline-block;
-  font-size:11px;
-  line-height:1;
-  padding:4px 8px;
-  border-radius:999px;
-  background:var(--red);
-  color:#fff;
-  font-weight:600;
-  box-shadow:0 6px 16px rgba(227,6,19,.4);
-  white-space:nowrap;
-}
-
-/* infos abaixo do título */
-.card-info{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  font-size:13px;
-  color:#4B5563;
-  line-height:1.4;
-  margin-top:4px;
-}
-
-/* ações do card */
-.card-actions {
-  display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  gap: 1px;
-  margin-top: 6px;
-}
-
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  font-size: 13px;
-  line-height: 1.2;
-  cursor: pointer;
-  transition: 0.15s ease;
-  font-weight: 500;
-  min-width: 90px; /* deixa todos com mesmo tamanho */
-  text-align: center;
-}
-
-.icon-btn.edit{
-  background: #4B5563;
-  color:#fff;
-}
-.icon-btn.edit:hover{
-  filter:brightness(.650);
-}
-.icon-btn.delete{
-  background:#4B5563;
-  color:#fff;
-}
-.icon-btn.delete:hover{
-  background:#DC2626;
-}
-/* ===== Botão de detalhes visível e estilizado ===== */
-
-.icon-btn.details-btn {
-  background: #fff;
-  border: 1px solid var(--border);
-  color: #111827;
-  box-shadow: 0 4px 10px rgba(0,0,0,.05);
-  transition: 0.15s ease;
-}
-.icon-btn.details-btn:hover {
-  background: #F3F4F6;
-  transform: translateY(-1px);
-}
-
-
-/* Ajuste do container das ações */
-.card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-
-/* painel de detalhes expandido */
-.details{
-  display:none;
-  border-top:1px dashed var(--border);
-  padding-top:12px;
-}
-.details.open{
-  display:block;
-}
-
-/* grids dentro de detalhes */
-.details-sections{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;
-  margin-bottom:16px;
-}
-.block{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,.04);
-  font-size:13px;
-  color:#1F2937;
-}
-.block h5{
-  font-size:13px;
-  font-weight:600;
-  color:#111827;
-  margin-bottom:8px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-.block-row{
-  font-size:13px;
-  line-height:1.4;
-  margin-bottom:6px;
-  word-break:break-word;
-}
-.block-row-label{
-  font-weight:600;
-  color:#374151;
-}
-
-/* Comentários e histórico */
-.inline-form{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:12px 0;
-}
-.inline-form input{
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  padding:8px;
-  font-size:13px;
-  flex:1 1 auto;
-  min-width:130px;
-}
-.inline-form input:focus{
-  outline:2px solid rgba(227,6,19,.25);
-  box-shadow:0 0 0 3px rgba(227,6,19,.12);
-}
-.comment,
-.history{
-  font-size:13px;
-  color:#4B5563;
-  line-height:1.4;
-  margin-bottom:4px;
-}
-.help{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:4px;
-}
-
-/* ===== OVERVIEW ===== */
-.overview{
-  display:none;
-}
-.overview.active{
-  display:block;
-}
-.widgets{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:12px;
-  margin-top:8px;
-}
-.widget{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:12px;
-  box-shadow:var(--shadow);
-}
-.widget h4{
-  margin:0 0 8px;
-  font-size:14px;
-  font-weight:600;
-  color:#1F2937;
-}
-.widget-value{
-  font-size:28px;
-  font-weight:800;
-  color:#111827;
-}
-.widget-value.red{
-  color:var(--red);
-}
-.canvas-wrap{
-  width:100%;
-  height:240px;
-}
-canvas{
-  width:100%;
-  height:240px;
-  border:1px dashed #F1F5F9;
-  border-radius:var(--radius-md);
-  background:#fff;
-}
-
-/* ===== MODAL ===== */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  align-items:center;
-  justify-content:center;
-  padding:10px;
-  z-index:1000;
-}
-.modal.open{
-  display:flex;
-}
-.sheet{
-  width:min(860px,96vw);
-  max-height:92vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:var(--radius-lg);
-  padding:20px 22px;
-  box-shadow:var(--shadow);
-}
-.sheet h3{
-  font-size:20px;
-  font-weight:800;
-  margin-bottom:10px;
-  color:#111827;
-}
-.grid-form{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:12px;
-}
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-.field.full{grid-column:1/-1;}
-.field.col-6{grid-column:span 6;}
-.field label{
-  font-size:12px;
-  color:var(--muted);
-  font-weight:600;
-}
-.field input,
-.field textarea,
-.field select{
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:11px 12px;
-  font:inherit;
-  background:#fff;
-  font-size:14px;
-}
-.field textarea{
-  min-height:84px;
-  resize:vertical;
-}
-.field input:focus,
-.field textarea:focus,
-.field select:focus{
-  outline:2px solid rgba(227,6,19,.25);
-  box-shadow:0 0 0 3px rgba(227,6,19,.12);
-}
-.req-hint{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.4;
-}
-.err{
-  font-size:12px;
-  color:#DC2626;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-  margin-top:16px;
-}
-.actions .btn{
-  min-width:120px;
-}
-#btnDelete{
-  background:#4B5563;
-  color:#fff;
-}
-#btnDelete:hover{
-  background:#DC2626;
-}
-
-/* ===== RESPONSIVO ===== */
-@media (max-width:1024px){
-  .app{grid-template-columns:260px 1fr;}
-}
-@media (max-width:900px){
-  .app{grid-template-columns:1fr;}
-  .sidebar{
-    position:fixed;
-    left:-100%;
-    top:0;
-    height:100vh;
-    width:280px;
-    z-index:999;
+  :root{
+    --brand-red:#E30613;
+    --brand-dark:#1E1E1E;
+    --bg:#F7F7F8;
+    --muted:#7A7A7A;
+    --radius:12px;
+    /* Cores dos status */
+   --status-ativo: #228B22;
+    --status-inativo: 	#FF0000;
+    --status-promocional: #FF1493;
+    --status-personalizada: #00008B;
   }
-  .sidebar.open{
-    left:0;
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:#222;
   }
-  .hamburger{
-    display:block;
+  .container{
+    max-width:1200px; margin:32px auto; padding:0 16px;
   }
-  .grid-form{
-    grid-template-columns:1fr;
+
+  /* Header */
+  .page-header{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
   }
-  .field.col-6{
-    grid-column:1/-1;
+  .title{
+    margin:0;
+    font-weight:800; letter-spacing:.2px;
+    font-size:clamp(22px,3.5vw,36px);
+    color:var(--brand-dark);
   }
+  .title-accent{
+    color:var(--brand-red);
+  }
+
+  /* Search */
+  .search-wrap{
+    position:relative; margin:16px 0 20px;
+  }
+  .search-input{
+    width:100%; padding:14px 44px 14px 44px; border-radius:999px;
+    border:1.5px solid #E3E3E7; outline:none; font-size:15px; background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .search-input:focus{ border-color:var(--brand-red); box-shadow:0 0 0 4px rgba(227,6,19,.12); }
+  .search-icon{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%); width:20px; height:20px; opacity:.7;
+  }
+  .search-clear{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    border:none; background:transparent; cursor:pointer; padding:6px; border-radius:8px;
+  }
+
+  /* Table */
+  .card{
+    background:#fff; border-radius:var(--radius); overflow:hidden;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+  }
+  table{ width:100%; border-collapse:collapse; }
+  thead th{
+    position:sticky; top:0; z-index:2;
+    background:var(--brand-red); color:#fff; text-align:left; padding:14px 12px; font-weight:700;
+  }
+  tbody td{ padding:12px; border-top:1px solid #F0F0F2; }
+  tbody tr:hover{ background:#FFF5F6; }
+  .sku-col{ white-space:nowrap; }
+  
+  /* Status select styling com cores */
+  .status-select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1.5px solid #E3E3E7;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .status-select:focus {
+    outline: none;
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 2px rgba(227,6,19,.12);
+  }
+  .status-select:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  /* Cores específicas para cada status */
+  .status-select option[value="Ativo"] {
+    background: var(--status-ativo);
+    color: white;
+  }
+  .status-select option[value="Inativo"] {
+    background: var(--status-inativo);
+    color: white;
+  }
+  .status-select option[value="Promocional"] {
+    background: var(--status-promocional);
+    color: white;
+  }
+  .status-select option[value="Personalizada"] {
+    background: var(--status-personalizada);
+    color: white;
+  }
+
+  /* Estilos para o select baseado no valor selecionado */
+  .status-select[data-status="Ativo"] {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--status-ativo);
+    color: var(--status-ativo);
+  }
+  .status-select[data-status="Inativo"] {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--status-inativo);
+    color: var(--status-inativo);
+  }
+  .status-select[data-status="Promocional"] {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: var(--status-promocional);
+    color: var(--status-promocional);
+  }
+  .status-select[data-status="Personalizada"] {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--status-personalizada);
+    color: var(--status-personalizada);
+  }
+
+  /* Badges para visualização alternativa */
+  .status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .status-badge.ativo {
+    background: var(--status-ativo);
+    color: white;
+  }
+  .status-badge.inativo {
+    background: var(--status-inativo);
+    color: white;
+  }
+  .status-badge.promocional {
+    background: var(--status-promocional);
+    color: white;
+  }
+  .status-badge.personalizada {
+    background: var(--status-personalizada);
+    color: white;
+  }
+
+  /* Lock button in header */
+  .lock-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    color:#fff; background:transparent; border:none; cursor:pointer; margin-left:6px;
+    font:inherit; padding:4px 8px; border-radius:8px;
+  }
+  .lock-btn:hover{ background:rgba(255,255,255,.14); }
+  .lock-icon{ width:18px; height:18px; }
+
+  /* Modal */
+  .modal{
+    position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.4);
+  }
+  .modal.show{ display:grid; }
+  .dialog{
+    background:#fff; padding:22px; width:min(92vw,420px); border-radius:16px;
+    box-shadow:0 12px 28px rgba(0,0,0,.18);
+  }
+  .dialog h3{ margin:0 0 10px; color:var(--brand-dark); }
+  .dialog p{ margin:0 0 16px; color:var(--muted); }
+  .field{ display:flex; gap:10px; }
+  .field input{
+    flex:1; padding:12px 14px; border-radius:10px; border:1.5px solid #E1E1E5; outline:none;
+  }
+  .field input:focus{ border-color:var(--brand-red); box-shadow:0 0 0 4px rgba(227,6,19,.12); }
+  .actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
+  .btn{
+    border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600;
+  }
+  .btn.primary{ background:var(--brand-red); color:#fff; }
+  .btn.ghost{ background:#F1F2F4; color:#222; }
+  .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
+
+.sort-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:transparent; border:0; color:#fff; cursor:pointer; padding:0; font:inherit;
 }
+.sort-btn:hover{ opacity:.8; }
+th .sort-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-radius:6px; }
+.sort-btn .arrow{ font-weight:700; }
+
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+  }
+  .error {
+    text-align: center;
+    padding: 20px;
+    color: var(--brand-red);
+    background: #ffe6e6;
+    border-radius: var(--radius);
+    margin: 10px 0;
+  }
 </style>
 </head>
+
 <body>
-
-<div class="app">
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-logo">
-        <img src="img/65a1ed2e380e6.png" alt="Logo Edel White">
-      </div>
-      <div class="brand-name">
-        <h1>Trello Edel White</h1>
-        <div class="sub">Pendências por Setor</div>
-      </div>
+  <div class="container">
+    <div class="page-header">
+      <h1 class="title">Produtos <span class="title-accent">Edel+White 2025</span></h1>
     </div>
 
-    <nav class="nav">
-      <h2>SETORES</h2>
-      <div id="navSetores"></div>
-
-      <div class="tools">
-        <button class="btn primary" id="btnNew">+ Novo</button>
-        <button class="btn neutral" id="btnOverview">Visão Geral</button>
-      </div>
-    </nav>
-  </aside>
-
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="main">
-    <div class="topbar">
-      <button class="hamburger" id="btnMenu">☰</button>
-      <div class="page-title" id="pageTitle">SAC</div>
-      <div class="kpi-line" id="kpiLine">—</div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input id="search" class="search-input" placeholder="Buscar por descrição, SKU ou status…" />
+      <button id="clearBtn" class="search-clear" title="Limpar busca">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
 
-    <!-- Kanban -->
-    <section class="board" id="board"></section>
+    <div class="card">
+      <table id="productsTable">
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th class="sku-col">
+              <button type="button" class="sort-btn" data-col="1" aria-label="Ordenar por SKU">
+                <span class="label">SKU</span> <span class="arrow">⇅</span>
+              </button>
+            </th>
+            <th>
+              <button type="button" class="sort-btn" data-col="2" aria-label="Ordenar por Status">
+                <span class="label">Status</span> <span class="arrow">⇅</span>
+              </button>
+              <button id="lockBtn" class="lock-btn" title="Desbloquear edição do Status">
+                <svg id="lockIcon" class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 1 1 10 0v4"></path>
+                </svg>
+                <span id="lockLabel">Bloqueado</span>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="lista-produtos">
+          <tr>
+            <td colspan="3" class="loading">Carregando produtos do Firebase...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- Painel de visão geral -->
-    <section class="overview" id="overview">
-      <div class="widgets" id="widgets"></div>
-
-      <div class="widgets">
-        <div class="widget">
-          <h4>Abertos vs Concluídos por setor</h4>
-          <div class="canvas-wrap">
-            <canvas id="cvBars"></canvas>
-          </div>
-        </div>
-
-        <div class="widget">
-          <h4>Prazo vencido (SLA)</h4>
-          <div class="canvas-wrap">
-            <canvas id="cvPie"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="sheet">
-    <h3 id="modalTitle">Novo Ticket</h3>
-    <form id="formTicket">
-      <div class="grid-form">
-        <div class="field full">
-          <label>Título*</label>
-          <input id="iTitle" required />
-          <div class="err" id="eTitle"></div>
-        </div>
-
-        <div class="field col-6">
-          <label>Setor*</label>
-          <select id="iSector" required></select>
-          <div class="err" id="eSector"></div>
-        </div>
-
-        <div class="field col-6">
-          <label>Status*</label>
-          <select id="iStatus" required>
-            <option>Aberto</option>
-            <option>Em andamento</option>
-            <option>Aguardando</option>
-            <option>Concluído</option>
-          </select>
-        </div>
-
-        <div class="field col-6">
-          <label>Prioridade</label>
-          <select id="iPriority">
-            <option value="low">Baixa</option>
-            <option value="medium" selected>Média</option>
-            <option value="high">Alta</option>
-          </select>
-        </div>
-
-        <div class="field col-6">
-          <label>Prazo</label>
-          <input id="iDue" type="date" />
-        </div>
-
-        <div class="field col-6">
-          <label>Nº da nota (opcional)</label>
-          <input id="iInvoice" />
-        </div>
-
-        <div class="field full">
-          <label>Descrição</label>
-          <textarea id="iDesc" rows="3"></textarea>
-        </div>
-
-        <div class="field full">
-          <label>Campos do setor</label>
-          <div class="req-hint" id="sectorHelp">Adaptado ao setor selecionado.</div>
-          <div id="sectorFields"></div>
-          <div class="err" id="eSectorFields"></div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button type="button" class="btn neutral" id="btnClose">Cancelar</button>
-        <button type="button" class="btn" id="btnDelete">Excluir</button>
-        <button type="submit" class="btn primary" id="btnSave">Salvar</button>
-      </div>
-    </form>
+    <p class="hint">Dica: clique no cadeado para desbloquear/ bloquear a edição da coluna <b>Status</b>.</p>
   </div>
-</div>
 
-<script>
-/* ======================
-   FIREBASE CONFIG
-====================== */
+  <!-- Modal de senha -->
+  <div id="pwdModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <h3 id="dlgTitle">Desbloquear edição</h3>
+      <p>Informe a senha para editar os valores da coluna <b>Status</b>.</p>
+      <div class="field">
+        <input id="pwdInput" type="password" placeholder="Senha" />
+        <button id="seeBtn" class="btn ghost" type="button">Ver</button>
+      </div>
+      <div class="actions">
+        <button id="cancelBtn" class="btn ghost" type="button">Cancelar</button>
+        <button id="unlockBtn" class="btn primary" type="button">Desbloquear</button>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+ // ====== IMPORTS FIREBASE ======
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+// ====== CONFIGURAÇÃO DO SEU PROJETO ======
 const firebaseConfig = {
-  apiKey: "AIzaSyAzZABnsXbMcYDYIXCg3hxBy53c3cBaJNQ",
-  authDomain: "manager-edel-white.firebaseapp.com",
-  projectId: "manager-edel-white",
-  storageBucket: "manager-edel-white.firebasestorage.app",
-  messagingSenderId: "928454260867",
-  appId: "1:928454260867:web:61a2f5106fcaffe41d43b6"
+  apiKey: "AIzaSyC1D-4GxAbWrD1TYeBl5Aeiq6UaJVCHA14",
+  authDomain: "produtosedelwhite.firebaseapp.com",
+  databaseURL: "https://produtosedelwhite-default-rtdb.firebaseio.com",
+  projectId: "produtosedelwhite",
+  storageBucket: "produtosedelwhite.firebasestorage.app",
+  messagingSenderId: "61520958217",
+  appId: "1:61520958217:web:8214c3af026d72f1c7f9d8"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 
-/* ======================
-   CONSTANTES
-====================== */
-const SECTORS = ["SAC","Logística","Comercial","Faturamento","Financeiro"];
-const STATUSES = ["Aberto","Em andamento","Aguardando","Concluído"];
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const produtosRef = ref(db, "produtos");
 
-let currentSector = "SAC";
-let overviewMode = false;
-let dragRef = null; // usado no drag & drop
+const lista = document.getElementById("lista-produtos");
+let edicaoAtiva = false;
 
-/* ======================
-   INICIALIZAÇÃO
-====================== */
-initUI();
-loadSector(currentSector);
+// Dados iniciais dos produtos
+const produtosIniciais = [
+  { descricao: "EW-MULT12 CREME DENTAL MULTIPLOS 12 ML", sku: "000-500", status: "Promocional" },
+  { descricao: "EW-MULT12 CREME DENTAL INFANTIL MULTIPLOS 9 ML", sku: "000-501", status: "Promocional" },
+  { descricao: "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PERSONALIZADA", sku: "001-104", status: "Personalizada" },
+  { descricao: "EW-BRD ESCOVA DE DENTES PORTÁTIL FLOSSERBRUSH TO GO PERSONALIZADA", sku: "001-124", status: "Personalizada" },
+  { descricao: "EW-BVW24 ESCOVA DE DENTES WHITENING PERSONALIZADA", sku: "001-128", status: "Personalizada" },
+  { descricao: "EW-CC ESCOVA DE DENTES CLEAN CURL CURVED PERSONALIZADA", sku: "001-129", status: "Personalizada" },
+  { descricao: "EW-BVD24 ESCOVA DE DENTES FLOSSERBRUSH SOFT PERSONALIZADA", sku: "001-134", status: "Personalizada" },
+  { descricao: "EW-K4D ESCOVA DE DENTES FLOSSERBRUSH KIDS PERSONALIZADA", sku: "001-141", status: "Personalizada" },
+  { descricao: "EW-BGUMP24 ESCOVA DE DENTES PRO GUMS IN BULK PERSONALIZADA", sku: "001-278", status: "Personalizada" },
+  { descricao: "EW-BORTHO24 ESCOVA DE  DENTES PRO ORTHO IN BULK PERSONALIZADA", sku: "001-279", status: "Personalizada" },
+  { descricao: "EW-KIT BASICO PERSONALIZADO", sku: "001-401", status: "Personalizada" },
+  { descricao: "EW-BSTL3 ESCOVA UNITUFO PERSONALIZADA", sku: "001-731", status: "Personalizada" },
+  { descricao: "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT IN BULK", sku: "100-104", status: "Inativo" },
+  { descricao: "EW-VSD2 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET DUO", sku: "100-105", status: "Inativo" },
+  { descricao: "EW-VSD ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET SINGLE", sku: "100-108", status: "Ativo" },
+  { descricao: "EW-VSDF ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT FOIL", sku: "100-109", status: "Inativo" },
+  { descricao: "EW-VD ESCOVA DE DENTES FLOSSERBRUSH SOFT PET", sku: "100-114", status: "Inativo" },
+  { descricao: "EW-VW ESCOVA DE DENTES WHITENING", sku: "100-119", status: "Ativo" },
+  { descricao: "EW-BRD ESCOVA DE DENTES PORTATIL FLOSSERBRUSH TO GO IN BULK", sku: "100-124", status: "Inativo" },
+  { descricao: "EW-K3DD ESCOVA DE DENTES FLOSSERBRUSH KIDS DOKI", sku: "100-126", status: "Ativo" },
+  { descricao: "EW-K3DM ESCOVA DE DENTES FLOSSERBRUSH KIDS MINI BEATS", sku: "100-127", status: "Inativo" },
+  { descricao: "EW-CC ESCOVA DE DENTES CLEANCURL CURVED", sku: "100-129", status: "Ativo" },
+  { descricao: "EW-ORTHO ESCOVA DE DENTES PRO ORTHO", sku: "100-131", status: "Ativo" },
+  { descricao: "EW-BVD24 ESCOVA DE DENTES FLOSSERBRUSH SOFT IN BULK", sku: "100-134", status: "Inativo" },
+  { descricao: "EWK4D ESCOVA DE DENTES FLOSSERBRUSH KIDS", sku: "100-141", status: "Ativo" },
+  { descricao: "EW-WJ900 IRRIGADOR ORAL FLOSSERPIK 3", sku: "100-158", status: "Inativo" },
+  { descricao: "EW-WJR9 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK 3", sku: "100-159", status: "Ativo" },
+  { descricao: "EW-SG2F CABECAS DE ESCOVA SONIC GENERATION FOCUS DUO", sku: "100-164", status: "Ativo" },
+  { descricao: "FLOSSERPIK PRO STATION", sku: "100-165", status: "Ativo" },
+  { descricao: "EW-WJR5 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK", sku: "100-167", status: "Ativo" },
+  { descricao: "EW-WJ180 IRRIGADOR ORAL PORTATIL FLOSSERPICK POWER SPA", sku: "100-171", status: "Inativo" },
+  { descricao: "EW-WJR2 PONTAS DE REPOSICAO IRRIGADOR ORAL PORTATIL POWER SPA", sku: "100-172", status: "Ativo" },
+  { descricao: "EW-WJR3 PONTA DE REPOSICAO DO IRRIGADOR ORAL PRO STATION", sku: "100-173", status: "Inativo" },
+  { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR AMARELO)", sku: "100-179", status: "Inativo" },
+  { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR AZUL)", sku: "100-180", status: "Inativo" },
+  { descricao: "EW-SG2A CABECA DE ESCOVA DE DENTES SONIC CLEAN CURL", sku: "100-185", status: "Ativo" },
+  { descricao: "EW-SG2W CABECAS DE ESCOVA SONIC GENERATION WHITENING", sku: "100-189", status: "Ativo" },
+  { descricao: "EW-SG2A CABECAS DE ESCOVA DE DENTES SONIC GENERATION WINNER", sku: "100-192", status: "Ativo" },
+  { descricao: "EW-SG2B CABECAS DE ESCOVA DE DENTES SONIC TARGET & FOCUS", sku: "100-193", status: "Inativo" },
+  { descricao: "EW-SG8 ESCOVA DE DENTES SONIC GENERATION HEALTH SUITE", sku: "100-199", status: "Ativo" },
+  { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING PRETA", sku: "100-220", status: "Inativo" },
+  { descricao: "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR PRETA)", sku: "100-220A", status: "Inativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SSS (SACO COM 25 UNIDADES)", sku: "100-242", status: "Ativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SS (SACO COM 25 UNIDADES)", sku: "100-243", status: "Ativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL S (SACO COM 25 UNIDADES)", sku: "100-244", status: "Ativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL M (SACO COM 25 UNIDADES)", sku: "100-245", status: "Ativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL L (SACO COM 25 UNIDADES)", sku: "100-246", status: "Ativo" },
+  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL XS (SACO COM 25 UNIDADES)", sku: "100-247", status: "Inativo" },
+  { descricao: "EW-GUMP ESCOVA DE DENTES PRO GUMS", sku: "100-256", status: "Ativo" },
+  { descricao: "EW-BORTHO24 ESCOVA DE DENTES PRO ORTHO IN BULK", sku: "100-279", status: "Inativo" },
+  { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 75 ML", sku: "100-294", status: "Ativo" },
+  { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 12 ML", sku: "100-295", status: "Inativo" },
+  { descricao: "EW-TD ESCOVA DE DENTES PORTATIL FLOSSERBRUSH TO GO", sku: "130-118", status: "Ativo" },
+  { descricao: "EW-ID7 XS ESCOVA INTERDENTAL 0.42MM", sku: "300-331", status: "Inativo" },
+  { descricao: "EW-ID7 SSS ESCOVA INTERDENTAL 0.45MM", sku: "300-332", status: "Ativo" },
+  { descricao: "EW-ID7 SS ESCOVA INTERDENTAL 0.5MM", sku: "300-333", status: "Ativo" },
+  { descricao: "EW-ID7 S ESCOVA INTERDENTAL 0.6MM", sku: "300-334", status: "Ativo" },
+  { descricao: "EW-ID7 M ESCOVA INTERDENTAL 0,7MM", sku: "300-335", status: "Ativo" },
+  { descricao: "EW-ID7 L ESCOVA INTERDENTAL 0.8MM", sku: "300-336", status: "Ativo" },
+  { descricao: "EW-ID7.40A ESCOVA INTERDENTAL", sku: "300-381", status: "Ativo" },
+  { descricao: "EW-BOLSINHA DE PLASTICO", sku: "400-401", status: "Inativo" },
+  { descricao: "EW-DISPLAY DE ACRILICO", sku: "400-417", status: "Ativo" },
+  { descricao: "EW-PROMOCIONAL DE ACRILICO SHELF13", sku: "400-437", status: "Inativo" },
+  { descricao: "EW-KV KIT DE VIAGEM", sku: "400-454", status: "Inativo" },
+  { descricao: "EW-SW75 CREME DENTAL SWISS WHITENING 75 ML", sku: "500-501", status: "Inativo" },
+  { descricao: "EW-SR75 CREME DENTAL STOP SENSITIVE 75 ML", sku: "500-505", status: "Ativo" },
+  { descricao: "EW-GUM75 CREME DENTAL CARE FORTE 75 ML", sku: "500-510", status: "Ativo" },
+  { descricao: "EW-TW75 CREME DENTAL ANTIPLACA + BRANQUEADOR 75 ML", sku: "500-511", status: "Ativo" },
+  { descricao: "EW-GUM12 CREME DENTAL CARE FORTE 12 ML", sku: "500-520", status: "Inativo" },
+  { descricao: "EW-TW12 CREME DENTAL ANTIPLACA + BRANQUEADOR 12 ML", sku: "500-521", status: "Ativo" },
+  { descricao: "EW KF7 CREME DENTAL INFANTIL FRUCHTLI KIDS 7", sku: "500-532", status: "Ativo" },
+  { descricao: "EW-MR400 ANTISSEPTICO BUCAL FRESH + PROTECT 400 ML", sku: "500-541", status: "Ativo" },
+  { descricao: "EW-MR50 ANTISSEPTICO BUCAL FRESH + PROTECT 50 ML", sku: "500-542", status: "Promocional" },
+  { descricao: "EW-CHX1.2 ENXAQUATORIO 0.00 BUCAL PERIO STOP IRRITATION 300 ML", sku: "500-556", status: "Inativo" },
+  { descricao: "CREME DENTAL INFANTIL FRUCHTLI KIDS 9,4 ML", sku: "500-564", status: "Inativo" },
+  { descricao: "EW-TC4 LIMPADOR DE LINGUA", sku: "700-711", status: "Ativo" },
+  { descricao: "EW-STL3 ESCOVA UNITUFO", sku: "700-731", status: "Ativo" },
+  { descricao: "EW-PCR250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-828", status: "Ativo" },
+  { descricao: "EW-PC70 FITA DENTAL ENCERADA EASY TAPE 70 METROS LIMAO", sku: "800-829", status: "Ativo" },
+  { descricao: "EW-PL70 FITA DENTAL ENCERADA EASY TAPE 70 METROS MENTA", sku: "800-830", status: "Ativo" },
+  { descricao: "EW-PL5 FITA DENTAL ENCERADA EASY TAPE 5 METROS MENTA", sku: "800-831", status: "Promocional" },
+  { descricao: "EW-PL250 DISPENSER FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-832", status: "Ativo" },
+  { descricao: "EW-PL250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS MENTA", sku: "800-833", status: "Ativo" },
+  { descricao: "EW-BPS50 PICK STICKS SSS-S", sku: "800-835", status: "Ativo" },
+  { descricao: "EW-BPS50 PICK STICKS", sku: "800-836", status: "Ativo" },
+  { descricao: "EWWF40 FIO DENTAL SOFT WOVEN", sku: "800-850", status: "Ativo" },
+  { descricao: "EW-WF5 FIO SOFT WOVEN 5 METROS CANELA", sku: "800-851", status: "Promocional" },
+  { descricao: "EW-EF25 FIO DENTAL EXPANDING SUPERFLOSS 25 METROS", sku: "800-852", status: "Ativo" },
+  { descricao: "EW-XF50 FIO DENTAL SUPERSOFT FLOSS", sku: "800-853", status: "Ativo" },
+  { descricao: "PRODUTOS DE HIGIENE BUCAL", sku: "999-999", status: "Inativo" }
+];
 
-function initUI(){
-  // sidebar setores
-  const nav = document.getElementById("navSetores");
-  nav.innerHTML = "";
-  SECTORS.forEach(s=>{
-    const b = document.createElement("button");
-    b.className = "seg-btn";
-    b.innerHTML = `<span>${s}</span><span class="chip" id="chip-${s}">0</span>`;
-    b.onclick = () => {
-      overviewMode = false;
-      toggleOverview(false);
-      switchSector(s);
-    };
-    nav.appendChild(b);
-  });
-
-  // menu mobile
-  document.getElementById("btnMenu").onclick = () => {
-    document.getElementById("sidebar").classList.toggle("open");
-  };
-
-  // novo ticket
-  document.getElementById("btnNew").onclick = () => openModal();
-
-  // visão geral
-  document.getElementById("btnOverview").onclick = async () => {
-    overviewMode = !overviewMode;
-    toggleOverview(overviewMode);
-    if (overviewMode) {
-      await renderOverview();
+// Função para inicializar dados no Firebase apenas uma vez
+function inicializarDados() {
+  onValue(produtosRef, (snapshot) => {
+    const dados = snapshot.val();
+    
+    // Se não há dados no Firebase, carrega os dados iniciais
+    if (!dados || Object.keys(dados).length === 0) {
+      console.log("Inicializando dados no Firebase...");
+      const dadosIniciais = {};
+      produtosIniciais.forEach((produto, index) => {
+        dadosIniciais[`produto_${index}`] = produto;
+      });
+      
+      set(produtosRef, dadosIniciais)
+        .then(() => {
+          console.log("Dados iniciais carregados com sucesso!");
+          carregarTabela(); // Carrega a tabela após inicializar
+        })
+        .catch((error) => {
+          console.error("Erro ao carregar dados iniciais:", error);
+        });
+    } else {
+      console.log("Dados já existem no Firebase, carregando tabela...");
+      carregarTabela(); // Carrega a tabela se dados já existem
     }
-  };
-
-  // form modal
-  document.getElementById("iSector").innerHTML = SECTORS.map(s=>`<option>${s}</option>`).join("");
-  document.getElementById("iSector").value = currentSector;
-  document.getElementById("iSector").addEventListener("change", renderSectorFields);
-
-  renderSectorFields(); // campos específicos do setor atual
-
-  document.getElementById("btnClose").onclick = closeModal;
-  document.getElementById("btnDelete").onclick = delFromModal;
-  document.getElementById("formTicket").addEventListener("submit", saveTicket);
+  }, { onlyOnce: true });
 }
 
-function toggleOverview(on){
-  document.getElementById("overview").classList.toggle("active", on);
-  document.getElementById("board").style.display = on ? "none" : "grid";
-  document.getElementById("pageTitle").textContent = on ? "Visão Geral" : currentSector;
+// Função para atualizar a cor do select baseado no status
+function atualizarCorStatus(selectElement, status) {
+  // Remove todas as classes de status anteriores
+  selectElement.removeAttribute('data-status');
+  // Adiciona a classe correspondente ao status atual
+  selectElement.setAttribute('data-status', status);
 }
 
-function switchSector(s){
-  currentSector = s;
-  document.getElementById("pageTitle").textContent = s;
-  loadSector(s);
-}
+// Função para carregar a tabela
+function carregarTabela() {
+  onValue(produtosRef, (snapshot) => {
+    const dados = snapshot.val() || {};
+    console.log("Carregando tabela com", Object.keys(dados).length, "produtos");
+    
+    lista.innerHTML = "";
 
-/* ======================
-   CARREGAR SETOR / BOARD
-====================== */
-async function loadSector(sector){
-  const snap = await db.collection("tickets").where("sector","==",sector).get();
-
-  const grouped = {};
-  STATUSES.forEach(st=>grouped[st]=[]);
-  snap.forEach(doc=>{
-    const d = doc.data();
-    grouped[d.status] = grouped[d.status] || [];
-    grouped[d.status].push({id:doc.id, ...d});
-  });
-
-  renderBoard(grouped);
-  updateSidebarBadges();
-  updateKPIline(snap.docs.map(d=>d.data()));
-}
-
-/* Render das colunas do Kanban */
-function renderBoard(grouped){
-  const board = document.getElementById("board");
-  board.innerHTML = "";
-
-  STATUSES.forEach(st=>{
-    const col = document.createElement("section");
-    col.className = "column";
-    col.innerHTML = `
-      <h3>${st}</h3>
-      <div class="help">${
-        st === "Aberto"
-          ? "Novo/triagem"
-          : st === "Em andamento"
-          ? "Execução"
-          : st === "Aguardando"
-          ? "Dependência/aprovação"
-          : "Finalizado"
-      }</div>
-      <div class="dropzone" data-status="${st}"
-        ondragover="event.preventDefault()"
-        ondrop="onDrop(event)"></div>
-    `;
-
-    // adiciona cards
-    (grouped[st]||[]).forEach(ticket=>{
-      col.querySelector(".dropzone").appendChild(ticketCard(ticket));
+    Object.entries(dados).forEach(([id, produto]) => {
+      const linha = document.createElement("tr");
+      linha.innerHTML = `
+        <td>${produto.descricao}</td>
+        <td class="sku-col">${produto.sku}</td>
+        <td>
+          <select class="status-select" data-id="${id}" ${!edicaoAtiva ? "disabled" : ""}>
+            <option value="Ativo" ${produto.status === "Ativo" ? "selected" : ""}>Ativo</option>
+            <option value="Inativo" ${produto.status === "Inativo" ? "selected" : ""}>Inativo</option>
+            <option value="Promocional" ${produto.status === "Promocional" ? "selected" : ""}>Promocional</option>
+            <option value="Personalizada" ${produto.status === "Personalizada" ? "selected" : ""}>Personalizada</option>
+          </select>
+        </td>
+      `;
+      lista.appendChild(linha);
+      
+      // Aplica a cor inicial baseada no status
+      const select = linha.querySelector('.status-select');
+      atualizarCorStatus(select, produto.status);
     });
 
-    board.appendChild(col);
-  });
-}
-
-/* ======================
-   CARD DO TICKET
-====================== */
-function ticketCard(t){
-  const el = document.createElement("article");
-  el.className = "card";
-  el.id = t.id;
-  el.draggable = true;
-
-  el.addEventListener("dragstart", () => { 
-    dragRef = {id: t.id, from: t.status}; 
-  });
-
-  const dueDate = t.dueDate ? new Date(t.dueDate) : null;
-  const overdue = !!(dueDate && (Date.now() - dueDate.getTime() > 86400000));
-
-  const priorityLabel = getPriorityLabel(t.priority);
-  const priorityClass = getPriorityClass(t.priority);
-
-  el.innerHTML = `
-    <div class="card-header">
-      <div class="card-title">${escapeHtml(t.title || "")}</div>
-      <div class="card-meta">
-        <span class="priority-pill ${priorityClass}">
-          ${priorityLabel}
-        </span>
-        ${overdue ? `<span class="badge-overdue">Prazo estourado</span>` : ""}
-      </div>
-    </div>
-
-    <div class="card-info">
-      ${t.invoiceNumber ? `<div>Nota: ${escapeHtml(t.invoiceNumber)}</div>` : ""}
-      ${t.dueDate ? `<div>Prazo: ${formatDateBR(t.dueDate)}</div>` : ""}
-    </div>
-
-    <div class="card-actions">
-      <button class="icon-btn edit" onclick='openModal(${JSON.stringify(t)})'>✏️ Editar</button>
-      <button class="icon-btn delete" onclick='deleteTicket("${t.id}")'>🗑️ Excluir</button>
-      <button class="icon-btn details-btn" onclick='toggleDetails("${t.id}")'>🔍 Detalhes</button>
-    </div>
-
-    <div class="details" id="details-${t.id}">
-      <div class="details-sections">
-        <div class="block">
-          <h5>Informações do ticket</h5>
-          <div class="block-row"><span class="block-row-label">Título:</span> ${escapeHtml(t.title||"-")}</div>
-          <div class="block-row"><span class="block-row-label">Setor:</span> ${escapeHtml(t.sector||"-")}</div>
-          <div class="block-row"><span class="block-row-label">Status:</span> ${escapeHtml(t.status||"-")}</div>
-          <div class="block-row"><span class="block-row-label">Prioridade:</span> ${priorityLabel}</div>
-          <div class="block-row"><span class="block-row-label">Prazo:</span> ${t.dueDate?formatDateBR(t.dueDate):"-"}</div>
-          <div class="block-row"><span class="block-row-label">Nota:</span> ${t.invoiceNumber||"-"}</div>
-          <div class="block-row"><span class="block-row-label">Descrição:</span> ${escapeHtml(t.description||"-")}</div>
-        </div>
-        <div class="block">
-          <h5>Campos do setor</h5>
-          ${renderExtraBlock(t)}
-        </div>
-      </div>
-
-      <div class="block">
-        <h5>Comentários</h5>
-        <div class="inline-form">
-          <input id="author-${t.id}" placeholder="Seu nome">
-          <input id="cmt-${t.id}" placeholder="Novo comentário">
-          <button class="btn primary" style="padding:8px 12px;font-size:13px" onclick='addComment("${t.id}")'>Adicionar</button>
-        </div>
-        <div id="comments-${t.id}" class="comments-list"></div>
-      </div>
-
-      <div class="block">
-        <h5>Histórico de status</h5>
-        <div id="history-${t.id}" class="history-list"></div>
-      </div>
-    </div>
-  `;
-  return el;
-}
-
-
-/* Renderiza os campos extras (por setor) dentro do detalhe */
-function renderExtraBlock(t){
-  const extra = t.extra || {};
-  const s = t.sector || "";
-
-  if(s === "SAC"){
-    return `
-      <div class="block-row"><span class="block-row-label">Data do ocorrido:</span> ${extra.sx_dataOcorrido || "-"}</div>
-      <div class="block-row"><span class="block-row-label">Informações do ocorrido:</span> ${escapeHtml(extra.sx_infoOcorrido || "-")}</div>
-    `;
-  }
-  if(s === "Faturamento"){
-    return `
-      <div class="block-row"><span class="block-row-label">Pedidos a faturar:</span> ${escapeHtml(extra.ft_pedidos || "-")}</div>
-    `;
-  }
-  if(s === "Logística"){
-    return `
-      <div class="block-row"><span class="block-row-label">Itens em falta:</span> ${escapeHtml(extra.lg_itensFalta || "-")}</div>
-      <div class="block-row"><span class="block-row-label">Previsão importação:</span> ${extra.lg_previsao || "-"}</div>
-      <div class="block-row"><span class="block-row-label">Pendências:</span> ${escapeHtml(extra.lg_pendencias || "-")}</div>
-    `;
-  }
-  if(s === "Comercial"){
-    return `
-      <div class="block-row"><span class="block-row-label">Pedidos pendentes:</span> ${escapeHtml(extra.cm_pedidos || "-")}</div>
-      <div class="block-row"><span class="block-row-label">Itens em falta:</span> ${escapeHtml(extra.cm_itensFalta || "-")}</div>
-      <div class="block-row"><span class="block-row-label">Previsão de entrega:</span> ${extra.cm_previsao || "-"}</div>
-    `;
-  }
-  if(s === "Financeiro"){
-    return `
-      <div class="block-row"><span class="block-row-label">Checagem de boleto:</span> ${escapeHtml(extra.fn_boletos || "-")}</div>
-      <div class="block-row"><span class="block-row-label">Entregas:</span> ${escapeHtml(extra.fn_entregas || "-")}</div>
-      <div class="block-row"><span class="block-row-label">SAC relacionados:</span> ${escapeHtml(extra.fn_sac || "-")}</div>
-    `;
-  }
-  return `<div class="block-row">Nenhum campo específico.</div>`;
-}
-
-/* Prioridade -> texto e classe visual */
-function getPriorityLabel(p){
-  if(p === "high") return "Alta";
-  if(p === "medium") return "Média";
-  if(p === "low") return "Baixa";
-  return p || "-";
-}
-function getPriorityClass(p){
-  if(p === "high") return "priority-alta";
-  if(p === "medium") return "priority-media";
-  if(p === "low") return "priority-baixa";
-  return "";
-}
-
-/* ======================
-   DRAG & DROP
-====================== */
-async function onDrop(e){
-  e.preventDefault();
-  const to = e.currentTarget.dataset.status;
-  const d = dragRef;
-  if(!d || !d.id || d.from === to) return;
-
-  // salva direto no Firestore e registra histórico
-  await db.collection("tickets").doc(d.id).update({
-    status: to,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
-
-  await db.collection("tickets").doc(d.id)
-    .collection("history")
-    .add({
-      status: to,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-  loadSector(currentSector);
-}
-window.onDrop = onDrop;
-
-/* ======================
-   DETALHES (comentários + histórico)
-====================== */
-async function toggleDetails(id){
-  const box = document.getElementById("details-"+id);
-  box.classList.toggle("open");
-
-  if(box.classList.contains("open")){
-    await loadComments(id);
-    await loadHistory(id);
-  }
-}
-
-async function loadComments(id){
-  const list = document.getElementById("comments-"+id);
-  list.innerHTML = '<div class="help">Carregando comentários...</div>';
-
-  const snap = await db.collection("tickets").doc(id)
-    .collection("comments")
-    .orderBy("timestamp","desc")
-    .get();
-
-  if(snap.empty){
-    list.innerHTML = '<div class="help">Sem comentários.</div>';
-    return;
-  }
-
-  list.innerHTML = "";
-  snap.forEach(c=>{
-    const d = c.data();
-    const when = d.timestamp?.toDate?.();
-    const line = document.createElement("div");
-    line.className = "comment";
-    line.textContent = `${d.author||"Usuário"} — ${formatDateTimeBR(when)}: ${d.text}`;
-    list.appendChild(line);
-  });
-}
-
-async function addComment(id){
-  const authorEl = document.getElementById("author-"+id);
-  const input = document.getElementById("cmt-"+id);
-
-  const author = (authorEl?.value || "").trim();
-  const text = (input?.value || "").trim();
-  if(!text){
-    alert("Digite um comentário.");
-    return;
-  }
-
-  await db.collection("tickets").doc(id)
-    .collection("comments")
-    .add({
-      author: author || "Usuário",
-      text,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-  if(input) input.value = "";
-  await loadComments(id);
-}
-
-async function loadHistory(id){
-  const list = document.getElementById("history-"+id);
-  list.innerHTML = '<div class="help">Carregando histórico...</div>';
-
-  const snap = await db.collection("tickets").doc(id)
-    .collection("history")
-    .orderBy("timestamp","desc")
-    .get();
-
-  if(snap.empty){
-    list.innerHTML = '<div class="help">Sem histórico.</div>';
-    return;
-  }
-
-  list.innerHTML = "";
-  snap.forEach(h=>{
-    const d = h.data();
-    const when = d.timestamp?.toDate?.();
-    const line = document.createElement("div");
-    line.className = "history";
-    line.textContent = `${formatDateTimeBR(when)} — Status: ${d.status}`;
-    list.appendChild(line);
-  });
-}
-
-/* ======================
-   BADGES LATERAIS + KPI
-====================== */
-async function updateSidebarBadges(){
-  for(const s of SECTORS){
-    const n = (await db.collection("tickets").where("sector","==",s).get()).size;
-    const chip = document.getElementById("chip-"+s);
-    if(chip) chip.textContent = n;
-  }
-}
-
-function updateKPIline(items){
-  const tot = items.length;
-  const a   = items.filter(i=>i.status==="Aberto").length;
-  const c   = items.filter(i=>i.status==="Concluído").length;
-  const ov  = items.filter(i=> i.dueDate && (Date.now()-new Date(i.dueDate).getTime()>86400000)).length;
-
-  document.getElementById("kpiLine").textContent =
-    `${tot} tickets — Abertos: ${a} • Concluídos: ${c} • Vencidos: ${ov}`;
-}
-
-/* ======================
-   OVERVIEW (gráficos sem libs externas)
-====================== */
-async function renderOverview(){
-  const widgets = document.getElementById("widgets");
-  widgets.innerHTML = "";
-
-  const all = await db.collection("tickets").get();
-  const data = all.docs.map(d => ({id:d.id,...d.data()}));
-
-  const total = data.length;
-  const ab = data.filter(x=>x.status==="Aberto").length;
-  const co = data.filter(x=>x.status==="Concluído").length;
-  const venc = data.filter(x=>x.dueDate && (Date.now()-new Date(x.dueDate).getTime()>86400000)).length;
-
-  widgets.appendChild(kpiWidget("Total", total));
-  widgets.appendChild(kpiWidget("Abertos", ab));
-  widgets.appendChild(kpiWidget("Concluídos", co));
-  widgets.appendChild(kpiWidget("Vencidos (SLA)", venc, true));
-
-  const perSector = SECTORS.map(s=>({
-    s,
-    a: data.filter(x=>x.sector===s && x.status==="Aberto").length,
-    c: data.filter(x=>x.sector===s && x.status==="Concluído").length
-  }));
-
-  drawBars(document.getElementById("cvBars"), perSector);
-  drawPie(
-    document.getElementById("cvPie"),
-    [venc, total - venc],
-    ["Vencidos","No prazo"]
-  );
-}
-
-function kpiWidget(label,val,red){
-  const el = document.createElement("div");
-  el.className = "widget";
-  el.innerHTML = `
-    <h4>${label}</h4>
-    <div class="widget-value ${red ? "red" : ""}">${val}</div>
-  `;
-  return el;
-}
-
-/* ===== Barras: abertos X concluídos por setor ===== */
-function drawBars(cv, rows){
-  const ctx = cv.getContext("2d");
-  const w = cv.width = cv.clientWidth * 2;
-  const h = cv.height = cv.clientHeight * 2;
-
-  ctx.clearRect(0,0,w,h);
-
-  const pad = 80;
-  const max = Math.max(1, ...rows.map(r=>Math.max(r.a,r.c)));
-  const bw = (w-2*pad)/(rows.length*3);
-  let x = pad;
-
-  ctx.font = "28px Inter";
-
-  rows.forEach(r=>{
-    const ha = (r.a/max)*(h-2*pad);
-    ctx.fillStyle = "#FCA5A5"; // abertos
-    ctx.fillRect(x, h-pad-ha, bw, ha);
-    x += bw;
-
-    const hc = (r.c/max)*(h-2*pad);
-    ctx.fillStyle = "#86EFAC"; // concluídos
-    ctx.fillRect(x, h-pad-hc, bw, hc);
-    x += bw;
-
-    ctx.fillStyle = "#334155";
-    ctx.fillText(r.s, x-bw, h-pad+32);
-    x += bw;
-  });
-
-  ctx.strokeStyle = "#CBD5E1";
-  ctx.beginPath();
-  ctx.moveTo(pad,h-pad);
-  ctx.lineTo(w-pad,h-pad);
-  ctx.stroke();
-}
-
-/* ===== Pizza: prazos vencidos ===== */
-function drawPie(cv, values, labels){
-  const ctx = cv.getContext("2d");
-  const w = cv.width = cv.clientWidth * 2;
-  const h = cv.height = cv.clientHeight * 2;
-
-  ctx.clearRect(0,0,w,h);
-
-  const total = values.reduce((a,b)=>a+b,0)||1;
-  const cx = w/2;
-  const cy = h/2;
-  const r = Math.min(w,h)/3;
-  let ang = -Math.PI/2;
-
-  const colors = ["#E30613","#93C5FD"];
-
-  ctx.font = "28px Inter";
-  for(let i=0;i<values.length;i++){
-    const slice = (values[i]/total)*Math.PI*2;
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,ang,ang+slice);
-    ctx.closePath();
-    ctx.fillStyle = colors[i%colors.length];
-    ctx.fill();
-
-    const pct = Math.round(values[i]/total*100);
-    ctx.fillStyle = "#334155";
-    ctx.fillText(`${labels[i]}: ${pct}%`, 40, 60+34*i);
-
-    ang += slice;
-  }
-}
-
-/* ======================
-   MODAL / FORM
-====================== */
-const form = document.getElementById("formTicket");
-
-function openModal(pref){
-  document.getElementById("modalTitle").textContent = pref ? "Editar Ticket" : "Novo Ticket";
-  form.dataset.editing = pref ? pref.id : "";
-  form.dataset.prevStatus = pref ? (pref.status || "Aberto") : "";
-
-  fillForm(pref);
-  document.getElementById("modal").classList.add("open");
-}
-
-function closeModal(){
-  document.getElementById("modal").classList.remove("open");
-  form.reset();
-  form.dataset.editing = "";
-  form.dataset.prevStatus = "";
-  clearErrors();
-  document.getElementById("iSector").value = currentSector;
-  renderSectorFields();
-}
-
-function fillForm(d={}){
-  document.getElementById("iTitle").value   = d?.title        || "";
-  document.getElementById("iSector").value  = d?.sector       || currentSector;
-  document.getElementById("iStatus").value  = d?.status       || "Aberto";
-  document.getElementById("iPriority").value= d?.priority     || "medium";
-  document.getElementById("iDesc").value    = d?.description  || "";
-  document.getElementById("iDue").value     = d?.dueDate      || "";
-  document.getElementById("iInvoice").value = d?.invoiceNumber|| "";
-
-  renderSectorFields(d?.extra || {});
-}
-
-/* Campos adicionais por setor */
-function renderSectorFields(prefill={}){
-  const s = document.getElementById("iSector").value;
-  const box = document.getElementById("sectorFields");
-  const help = document.getElementById("sectorHelp");
-  let html = "";
-
-  if(s === "SAC"){
-    help.textContent = "SAC: Data do ocorrido* e Informações do ocorrido*";
-    html = `
-      <div class="field col-6" style="margin-bottom:8px">
-        <label>Data do ocorrido*</label>
-        <input id="sx_dataOcorrido" type="date" required>
-      </div>
-      <div class="field col-6" style="margin-bottom:8px">
-        <label>Informações do ocorrido*</label>
-        <textarea id="sx_infoOcorrido" rows="2" required></textarea>
-      </div>
-    `;
-  }
-  else if(s === "Faturamento"){
-    help.textContent = "Faturamento: Pedidos a faturar*";
-    html = `
-      <div class="field full">
-        <label>Pedidos a faturar*</label>
-        <textarea id="ft_pedidos" rows="2" required></textarea>
-      </div>
-    `;
-  }
-  else if(s === "Logística"){
-    help.textContent = "Logística: Itens em falta, Previsão de importação, Pendências";
-    html = `
-      <div class="field full">
-        <label>Itens em falta</label>
-        <textarea id="lg_itensFalta" rows="2"></textarea>
-      </div>
-      <div class="field col-6">
-        <label>Previsão importação</label>
-        <input id="lg_previsao" type="date">
-      </div>
-      <div class="field full">
-        <label>Pendências</label>
-        <textarea id="lg_pendencias" rows="2"></textarea>
-      </div>
-    `;
-  }
-  else if(s === "Comercial"){
-    help.textContent = "Comercial: Pedidos pendentes, Itens em falta, Previsão de entrega";
-    html = `
-      <div class="field full">
-        <label>Pedidos pendentes</label>
-        <textarea id="cm_pedidos" rows="2"></textarea>
-      </div>
-      <div class="field full">
-        <label>Itens em falta</label>
-        <textarea id="cm_itensFalta" rows="2"></textarea>
-      </div>
-      <div class="field col-6">
-        <label>Previsão de entrega</label>
-        <input id="cm_previsao" type="date">
-      </div>
-    `;
-  }
-  else if(s === "Financeiro"){
-    help.textContent = "Financeiro: Checagem de boleto, Entregas, SAC relacionados";
-    html = `
-      <div class="field full">
-        <label>Checagem de boleto</label>
-        <textarea id="fn_boletos" rows="2"></textarea>
-      </div>
-      <div class="field full">
-        <label>Entregas</label>
-        <textarea id="fn_entregas" rows="2"></textarea>
-      </div>
-      <div class="field full">
-        <label>SAC relacionados</label>
-        <textarea id="fn_sac" rows="2"></textarea>
-      </div>
-    `;
-  } else {
-    help.textContent = "Sem campos específicos para este setor.";
-  }
-
-  box.innerHTML = html;
-
-  // preencher valores se veio de edição
-  for(const [k,v] of Object.entries(prefill)){
-    const el = document.getElementById(k);
-    if(el) el.value = v;
-  }
-}
-
-function collectExtras(){
-  const ids = [
-    "sx_dataOcorrido","sx_infoOcorrido",
-    "ft_pedidos",
-    "lg_itensFalta","lg_previsao","lg_pendencias",
-    "cm_pedidos","cm_itensFalta","cm_previsao",
-    "fn_boletos","fn_entregas","fn_sac"
-  ];
-  const obj = {};
-  ids.forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) obj[id] = el.value;
-  });
-  return obj;
-}
-
-function clearErrors(){
-  ["eTitle","eSector","eSectorFields"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.textContent = "";
-  });
-}
-
-/* SALVAR / EXCLUIR */
-async function saveTicket(e){
-  e.preventDefault();
-  clearErrors();
-
-  const editingId  = form.dataset.editing || "";
-  const prevStatus = form.dataset.prevStatus || "";
-
-  const title         = document.getElementById("iTitle").value.trim();
-  const sector        = document.getElementById("iSector").value;
-  const status        = document.getElementById("iStatus").value;
-  const priority      = document.getElementById("iPriority").value;
-  const description   = document.getElementById("iDesc").value.trim();
-  const dueDate       = document.getElementById("iDue").value;
-  const invoiceNumber = document.getElementById("iInvoice").value.trim();
-  const extra         = collectExtras();
-
-  if(!title){
-    document.getElementById("eTitle").textContent = "Informe um título";
-    return;
-  }
-  if(!sector){
-    document.getElementById("eSector").textContent = "Selecione um setor";
-    return;
-  }
-  if(sector === "SAC"){
-    if(!extra.sx_dataOcorrido || !extra.sx_infoOcorrido){
-      document.getElementById("eSectorFields").textContent =
-        "Preencha Data e Informações do ocorrido.";
-      return;
-    }
-  }
-  if(sector === "Faturamento"){
-    if(!extra.ft_pedidos){
-      document.getElementById("eSectorFields").textContent =
-        "Preencha \"Pedidos a faturar\".";
-      return;
-    }
-  }
-
-  const payload = {
-    title,
-    sector,
-    status,
-    priority,
-    description,
-    dueDate,
-    invoiceNumber,
-    extra,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-
-  try{
-    if(editingId){
-      // update
-      await db.collection("tickets").doc(editingId).update(payload);
-
-      // se mudou status, gravar histórico
-      if(prevStatus && prevStatus !== status){
-        await db.collection("tickets").doc(editingId)
-          .collection("history")
-          .add({
-            status,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    // Adiciona event listeners para os selects
+    document.querySelectorAll(".status-select").forEach(select => {
+      select.addEventListener("change", e => {
+        if (!edicaoAtiva) return;
+        const id = e.target.dataset.id;
+        const novoStatus = e.target.value;
+        
+        // Atualiza a cor imediatamente
+        atualizarCorStatus(e.target, novoStatus);
+        
+        update(ref(db, `produtos/${id}`), { status: novoStatus })
+          .then(() => {
+            console.log("Status atualizado com sucesso");
+          })
+          .catch((error) => {
+            console.error("Erro ao atualizar status:", error);
           });
+      });
+    });
+
+    // Aplica filtro se houver texto na busca
+    const searchInput = document.getElementById('search');
+    if (searchInput && searchInput.value) {
+      filterTable();
+    }
+  });
+}
+
+// Função para aplicar filtro de busca
+const filterTable = () => {
+  const search = document.getElementById('search');
+  const q = normalize(search.value);
+  const rows = document.querySelectorAll('#lista-produtos tr');
+  
+  for (const r of rows) {
+    const txt = normalize(r.innerText);
+    r.style.display = txt.includes(q) ? '' : 'none';
+  }
+};
+
+// ======= Configurações =======
+const PASSWORD = '5674';
+const table = document.getElementById('productsTable');
+
+// ===== Ordenação SKU/Status =====
+const sortState = { 1: null, 2: null };
+
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const col = Number(btn.dataset.col);
+    sortState[col] = sortState[col] === 'asc' ? 'desc' : 'asc';
+    const asc = sortState[col] === 'asc';
+
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((ra, rb) => {
+      // Para a coluna Status (índice 2), obtemos o valor do select
+      let a, b;
+      
+      if (col === 2) {
+        // Para Status, pegamos o valor selecionado do elemento select
+        a = ra.cells[col].querySelector('select').value;
+        b = rb.cells[col].querySelector('select').value;
+      } else {
+        // Para outras colunas, pegamos o texto
+        a = ra.cells[col].textContent.trim();
+        b = rb.cells[col].textContent.trim();
       }
 
-    } else {
-      // create
-      payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      const ref = await db.collection("tickets").add(payload);
+      if (col === 1) { // SKU
+        const an = parseInt(a.replace(/\D/g, ''), 10);
+        const bn = parseInt(b.replace(/\D/g, ''), 10);
+        return asc ? an - bn : bn - an;
+      } else {        // Status
+        // Ordenação por texto simples
+        if (asc) {
+          return a.localeCompare(b, 'pt-BR', { sensitivity: 'base' });
+        } else {
+          return b.localeCompare(a, 'pt-BR', { sensitivity: 'base' });
+        }
+      }
+    });
 
-      // histórico inicial
-      await db.collection("tickets").doc(ref.id)
-        .collection("history")
-        .add({
-          status,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+    // Remove todas as linhas e adiciona na nova ordem
+    while (tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
     }
+    
+    rows.forEach(r => tbody.appendChild(r));
 
-    closeModal();
-    loadSector(currentSector);
-    if(overviewMode){ renderOverview(); }
+    // Atualiza as setas de ordenação
+    document.querySelectorAll('.sort-btn .arrow').forEach(el => el.textContent = '⇅');
+    btn.querySelector('.arrow').textContent = asc ? '▲' : '▼';
+  });
+});
+// ======= Busca com remoção de acentos =======
+const search = document.getElementById('search');
+const clearBtn = document.getElementById('clearBtn');
 
-  } catch(err){
-    alert("Erro ao salvar: "+err.message);
+const normalize = s => s
+  .toString()
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/\p{Diacritic}/gu, '');
+
+search.addEventListener('input', filterTable);
+clearBtn.addEventListener('click', () => { 
+  search.value=''; 
+  filterTable(); 
+  search.focus(); 
+});
+
+// ======= Cadeado / Modal =======
+const lockBtn = document.getElementById('lockBtn');
+const lockIcon = document.getElementById('lockIcon');
+const lockLabel = document.getElementById('lockLabel');
+const modal = document.getElementById('pwdModal');
+const pwdInput = document.getElementById('pwdInput');
+const unlockBtn = document.getElementById('unlockBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const seeBtn = document.getElementById('seeBtn');
+
+function setLocked(state){
+  locked = state;
+  edicaoAtiva = !state;
+  
+  document.querySelectorAll('.status-select').forEach(select => {
+    select.disabled = state;
+  });
+  
+  lockIcon.innerHTML = state
+    ? '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 1 1 10 0v4"></path>'
+    : '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 1 1 10 0"></path><path d="M17 7v4"></path>';
+  lockLabel.textContent = state ? 'Bloqueado' : 'Desbloqueado';
+  lockBtn.title = state ? 'Desbloquear edição do Status' : 'Bloquear edição do Status';
+}
+
+// abre modal
+lockBtn.addEventListener('click', () => {
+  if (!locked){ setLocked(true); return; }
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  pwdInput.value=''; pwdInput.focus();
+});
+
+// ver/ocultar senha
+seeBtn.addEventListener('click', () => {
+  const t = pwdInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  pwdInput.setAttribute('type', t);
+  seeBtn.textContent = t === 'password' ? 'Ver' : 'Ocultar';
+});
+
+// desbloquear
+unlockBtn.addEventListener('click', () => {
+  if (pwdInput.value === PASSWORD){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    setLocked(false);
+  } else {
+    alert('Senha incorreta.');
+    pwdInput.select();
   }
-}
+});
 
-async function delFromModal(){
-  const id = form.dataset.editing || "";
-  if(!id) return;
-  if(!confirm("Excluir este ticket?")) return;
+// cancelar
+cancelBtn.addEventListener('click', () => {
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+});
 
-  await db.collection("tickets").doc(id).delete();
+// fecha modal com ESC ou clique fora
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modal.classList.contains('show')) cancelBtn.click();
+});
+modal.addEventListener('click', e => {
+  if (e.target === modal) cancelBtn.click();
+});
 
-  closeModal();
-  loadSector(currentSector);
-  if(overviewMode){ renderOverview(); }
-}
+// Inicializa a aplicação
+let locked = true;
+setLocked(true);
 
-async function deleteTicket(id){
-  if(!confirm("Excluir este ticket?")) return;
-  await db.collection("tickets").doc(id).delete();
-  loadSector(currentSector);
-  if(overviewMode){ renderOverview(); }
-}
-
-/* ======================
-   FUNÇÕES AUXILIARES
-====================== */
-function escapeHtml(str){
-  return (str||"").replace(/[&<>"']/g, m=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    "\"":"&quot;",
-    "'":"&#39;"
-  }[m]));
-}
-function two(n){return (n<10?"0":"")+n}
-function formatDateBR(ymd){
-  if(!ymd) return "";
-  const [y,m,d] = ymd.split("-");
-  return `${d}/${m}/${y}`;
-}
-function formatDateTimeBR(date){
-  if(!date) return "-";
-  const dd=two(date.getDate());
-  const mm=two(date.getMonth()+1);
-  const yyyy=date.getFullYear();
-  const hh=two(date.getHours());
-  const min=two(date.getMinutes());
-  return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
-}
-
-/* ======================
-   FIRESTORE RULES (lembrete)
-====================== */
-/*
-No console do Firebase > Firestore > Regras, coloque isso enquanto estiver testando sem login:
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /tickets/{ticketId} {
-      allow read, write: if true;
-      match /comments/{commentId} { allow read, write: if true; }
-      match /history/{historyId} { allow read, write: if true; }
-    }
-  }
-}
-
-Depois a gente pode restringir por setor ou por rede interna.
-*/
+// Inicia o carregamento quando a página estiver pronta
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM carregado, inicializando dados...");
+  inicializarDados();
+});
 </script>
 </body>
 </html>
