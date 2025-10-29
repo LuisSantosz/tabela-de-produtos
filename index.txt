@@ -238,28 +238,30 @@ th .sort-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-r
 
     <div class="card">
       <table id="productsTable">
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th class="sku-col">
-              <button type="button" class="sort-btn" data-col="1" aria-label="Ordenar por SKU">
-                <span class="label">SKU</span> <span class="arrow">⇅</span>
-              </button>
-            </th>
-            <th>
-              <button type="button" class="sort-btn" data-col="2" aria-label="Ordenar por Status">
-                <span class="label">Status</span> <span class="arrow">⇅</span>
-              </button>
-              <button id="lockBtn" class="lock-btn" title="Desbloquear edição do Status">
-                <svg id="lockIcon" class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 1 1 10 0v4"></path>
-                </svg>
-                <span id="lockLabel">Bloqueado</span>
-              </button>
-            </th>
-          </tr>
-        </thead>
+       <thead>
+  <tr>
+    <th>Descrição</th>
+    <th class="sku-col">
+      <button type="button" class="sort-btn" data-col="1" aria-label="Ordenar por SKU">
+        <span class="label">SKU</span> <span class="arrow">⇅</span>
+      </button>
+    </th>
+    <th>
+      <button type="button" class="sort-btn" data-col="2" aria-label="Ordenar por Status">
+        <span class="label">Status</span> <span class="arrow">⇅</span>
+      </button>
+      <button id="lockBtn" class="lock-btn" title="Desbloquear edição do Status">
+        <svg id="lockIcon" class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 1 1 10 0v4"></path>
+        </svg>
+        <span id="lockLabel">Bloqueado</span>
+      </button>
+    </th>
+    <th>Previsão</th>
+  </tr>
+</thead>
+
         <tbody id="lista-produtos">
           <tr>
             <td colspan="3" class="loading">Carregando produtos do Firebase...</td>
@@ -326,7 +328,7 @@ const produtosIniciais = [
   { descricao: "EW-BSTL3 ESCOVA UNITUFO PERSONALIZADA", sku: "001-731", status: "Personalizada" },
   { descricao: "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT IN BULK", sku: "100-104", status: "Inativo" },
   { descricao: "EW-VSD2 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET DUO", sku: "100-105", status: "Inativo" },
-  { descricao: "EW-VSD ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET SINGLE", sku: "100-108", status: "Ativo" },
+  { descricao: "EW-VSD ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET SINGLE", sku: "100-103", status: "Ativo" },
   { descricao: "EW-VSDF ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT FOIL", sku: "100-109", status: "Inativo" },
   { descricao: "EW-VD ESCOVA DE DENTES FLOSSERBRUSH SOFT PET", sku: "100-114", status: "Inativo" },
   { descricao: "EW-VW ESCOVA DE DENTES WHITENING", sku: "100-119", status: "Ativo" },
