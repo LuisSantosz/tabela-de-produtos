@@ -59,11 +59,7 @@
     "sku": "001-731",
     "status": "Personalizada"
   },
-  "produto_12": {
-    "descricao": "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT IN BULK",
-    "sku": "100-104",
-    "status": "Inativo"
-  },
+
   "produto_13": {
     "descricao": "EW-VSD2 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET DUO",
     "sku": "100-105",
@@ -89,21 +85,7 @@
     "sku": "100-119",
     "status": "Ativo"
   },
-  "produto_18": {
-    "descricao": "EW-BRD ESCOVA DE DENTES PORTATIL FLOSSERBRUSH TO GO IN BULK",
-    "sku": "100-124",
-    "status": "Inativo"
-  },
-  "produto_19": {
-    "descricao": "EW-K3DD ESCOVA DE DENTES FLOSSERBRUSH KIDS DOKI",
-    "sku": "100-126",
-    "status": "Ativo"
-  },
-  "produto_20": {
-    "descricao": "EW-K3DM ESCOVA DE DENTES FLOSSERBRUSH KIDS MINI BEATS",
-    "sku": "100-127",
-    "status": "Inativo"
-  },
+
   "produto_21": {
     "descricao": "EW-CC ESCOVA DE DENTES CLEANCURL CURVED",
     "sku": "100-129",
@@ -114,21 +96,13 @@
     "sku": "100-131",
     "status": "Ativo"
   },
-  "produto_23": {
-    "descricao": "EW-BVD24 ESCOVA DE DENTES FLOSSERBRUSH SOFT IN BULK",
-    "sku": "100-134",
-    "status": "Inativo"
-  },
+
   "produto_24": {
     "descricao": "EWK4D ESCOVA DE DENTES FLOSSERBRUSH KIDS",
     "sku": "100-141",
     "status": "Ativo"
   },
-  "produto_25": {
-    "descricao": "EW-WJ900 IRRIGADOR ORAL FLOSSERPIK 3",
-    "sku": "100-158",
-    "status": "Inativo"
-  },
+
   "produto_26": {
     "descricao": "EW-WJR9 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK 3",
     "sku": "100-159",
@@ -164,16 +138,7 @@
     "sku": "100-173",
     "status": "Inativo"
   },
-  "produto_33": {
-    "descricao": "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR AMARELO)",
-    "sku": "100-179",
-    "status": "Inativo"
-  },
-  "produto_34": {
-    "descricao": "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR AZUL)",
-    "sku": "100-180",
-    "status": "Inativo"
-  },
+
   "produto_35": {
     "descricao": "EW-SG2A CABECA DE ESCOVA DE DENTES SONIC CLEAN CURL",
     "sku": "100-185",
@@ -199,16 +164,7 @@
     "sku": "100-199",
     "status": "Ativo"
   },
-  "produto_40": {
-    "descricao": "MS-ESCOVA DE DENTES SONIC BLACK WHITENING PRETA",
-    "sku": "100-220",
-    "status": "Inativo"
-  },
-  "produto_41": {
-    "descricao": "MS-ESCOVA DE DENTES SONIC BLACK WHITENING (COR PRETA)",
-    "sku": "100-220A",
-    "status": "Inativo"
-  },
+
   "produto_42": {
     "descricao": "EW-ID7.25 ESCOVA INTERDENTAL SSS (SACO COM 25 UNIDADES)",
     "sku": "100-242",
@@ -244,11 +200,7 @@
     "sku": "100-256",
     "status": "Ativo"
   },
-  "produto_49": {
-    "descricao": "EW-BORTHO24 ESCOVA DE DENTES PRO ORTHO IN BULK",
-    "sku": "100-279",
-    "status": "Inativo"
-  },
+
   "produto_50": {
     "descricao": "EW-OT75 CREME DENTAL OSMOTONIC 75 ML",
     "sku": "100-294",
@@ -299,31 +251,13 @@
     "sku": "300-381",
     "status": "Ativo"
   },
-  "produto_60": {
-    "descricao": "EW-BOLSINHA DE PLASTICO",
-    "sku": "400-401",
-    "status": "Inativo"
-  },
+
   "produto_61": {
     "descricao": "EW-DISPLAY DE ACRILICO",
     "sku": "400-417",
     "status": "Ativo"
   },
-  "produto_62": {
-    "descricao": "EW-PROMOCIONAL DE ACRILICO SHELF13",
-    "sku": "400-437",
-    "status": "Inativo"
-  },
-  "produto_63": {
-    "descricao": "EW-KV KIT DE VIAGEM",
-    "sku": "400-454",
-    "status": "Inativo"
-  },
-  "produto_64": {
-    "descricao": "EW-SW75 CREME DENTAL SWISS WHITENING 75 ML",
-    "sku": "500-501",
-    "status": "Inativo"
-  },
+
   "produto_65": {
     "descricao": "EW-SR75 CREME DENTAL STOP SENSITIVE 75 ML",
     "sku": "500-505",
@@ -369,11 +303,7 @@
     "sku": "500-556",
     "status": "Inativo"
   },
-  "produto_74": {
-    "descricao": "CREME DENTAL INFANTIL FRUCHTLI KIDS 9,4 ML",
-    "sku": "500-564",
-    "status": "Inativo"
-  },
+
   "produto_75": {
     "descricao": "EW-TC4 LIMPADOR DE LINGUA",
     "sku": "700-711",
@@ -414,11 +344,7 @@
     "sku": "800-833",
     "status": "Ativo"
   },
-  "produto_83": {
-    "descricao": "EW-BPS50 PICK STICKS SSS-S",
-    "sku": "800-835",
-    "status": "Ativo"
-  },
+
   "produto_84": {
     "descricao": "EW-BPS50 PICK STICKS",
     "sku": "800-836",
@@ -443,10 +369,6 @@
     "descricao": "EW-XF50 FIO DENTAL SUPERSOFT FLOSS",
     "sku": "800-853",
     "status": "Ativo"
-  },
-  "produto_89": {
-    "descricao": "PRODUTOS DE HIGIENE BUCAL",
-    "sku": "999-999",
-    "status": "Inativo"
   }
+ 
 }
