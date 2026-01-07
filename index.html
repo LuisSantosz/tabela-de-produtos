@@ -3,30 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Produtos Edel White 2025</title>
+<title>Produtos Edel White 2026</title>
 
 <style>
   :root{
     /* Preto & branco premium */
     --brand-dark:#0B0B0E;
-    --brand-black:#000000;
-    --brand-white:#FFFFFF;
-
     --bg:#F5F5F7;
-    --card:#FFFFFF;
     --line:#E5E7EB;
     --muted:#6B7280;
-
     --radius:16px;
     --shadow: 0 18px 50px rgba(0,0,0,.08);
+    --focus: 0 0 0 4px rgba(0,0,0,.12);
 
-    /* Status elegantes */
+    /* Status */
     --status-ativo: #16A34A;         /* Verde */
     --status-inativo: #EF4444;       /* Vermelho */
     --status-promocional: #7C3AED;   /* Roxo */
     --status-personalizada: #F59E0B; /* Laranja */
-
-    --focus: 0 0 0 4px rgba(0,0,0,.12);
   }
 
   *{box-sizing:border-box}
@@ -53,12 +47,14 @@
     justify-content:space-between;
     gap:16px;
     margin-bottom:16px;
+    flex-wrap: wrap;
   }
 
   .brandblock{
     display:flex;
     flex-direction:column;
     gap:6px;
+    min-width: 260px;
   }
 
   .title{
@@ -69,11 +65,6 @@
     color: var(--brand-dark);
     line-height:1.1;
   }
-  .title-accent{
-    color:#000;
-    font-weight:900;
-  }
-
   .subtitle{
     margin:0;
     color: var(--muted);
@@ -85,16 +76,16 @@
     display:flex;
     gap:10px;
     align-items:center;
+    flex-wrap: wrap;
   }
 
-  .lock-btn{
+  .pill-btn{
     display:inline-flex;
     align-items:center;
     gap:10px;
     padding:10px 12px;
     border-radius: 999px;
     cursor:pointer;
-
     border: 1px solid rgba(229,231,235,.95);
     background: rgba(255,255,255,.9);
     box-shadow: 0 10px 26px rgba(0,0,0,.08);
@@ -102,12 +93,18 @@
     font-weight:900;
     color: #000;
   }
-  .lock-btn:hover{
+  .pill-btn:hover{
     transform: translateY(-1px);
     box-shadow: 0 14px 32px rgba(0,0,0,.10);
     border-color: rgba(0,0,0,.35);
     background: #fff;
   }
+  .pill-btn:disabled{
+    opacity: .75;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   .lock-btn .dot{
     width:10px; height:10px; border-radius:999px;
     background:#9CA3AF;
@@ -117,7 +114,8 @@
     background:#000;
     box-shadow: 0 0 0 4px rgba(0,0,0,.15);
   }
-  .lock-btn svg{ width:18px; height:18px; }
+
+  .pill-btn svg{ width:18px; height:18px; }
 
   /* Search */
   .search-wrap{
@@ -158,7 +156,7 @@
     background: rgba(255,255,255,.9);
     border: 1px solid rgba(229,231,235,.95);
     border-radius: var(--radius);
-    overflow: visible; /* importante para o dropdown abrir sem cortar */
+    overflow: visible;
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
   }
@@ -175,8 +173,11 @@
     padding: 14px 12px;
     font-weight: 900;
     letter-spacing:.02em;
+    white-space: nowrap;
   }
-  thead th:nth-child(2), thead th:nth-child(3){ text-align:center; }
+  thead th:nth-child(2), thead th:nth-child(3), thead th:nth-child(5){
+    text-align:center;
+  }
 
   tbody td{
     padding: 12px;
@@ -187,7 +188,12 @@
   tbody tr:nth-child(even){ background: rgba(245,245,247,.55); }
   tbody tr:hover{ background: rgba(0,0,0,.04); }
 
-  .sku-col{ white-space: nowrap; text-align:center; font-weight:900; color:#0B0B0E; }
+  .sku-col{
+    white-space: nowrap;
+    text-align:center;
+    font-weight:900;
+    color:#0B0B0E;
+  }
 
   .desc{
     font-weight:900;
@@ -239,14 +245,11 @@
     color:#0B0B0E;
   }
   .previsao-input:focus{ border-color: #000; box-shadow: var(--focus); }
-
-  /* ✅ Mantém vivo mesmo bloqueado (sem opacity que “lava” tudo) */
   .previsao-input:disabled{
     cursor:not-allowed;
     opacity: 1;
     background: rgba(245,245,247,.85);
   }
-
   .previsao-input::placeholder{ color: rgba(107,114,128,.85); }
 
   .hint{
@@ -266,66 +269,6 @@
   .error{
     color: #000;
     background: rgba(0,0,0,.06);
-  }
-
-  /* Modal */
-  .modal{
-    position:fixed; inset:0;
-    display:none;
-    place-items:center;
-    background: rgba(0,0,0,.55);
-    padding: 18px;
-    z-index: 50;
-  }
-  .modal.show{ display:grid; }
-
-  .dialog{
-    width: min(92vw, 420px);
-    background: rgba(255,255,255,.92);
-    border: 1px solid rgba(229,231,235,.95);
-    border-radius: 18px;
-    box-shadow: 0 18px 60px rgba(0,0,0,.28);
-    backdrop-filter: blur(10px);
-    padding: 18px;
-  }
-  .dialog h3{
-    margin: 0 0 8px;
-    font-size: 18px;
-    font-weight: 1000;
-    color: #000;
-  }
-  .dialog p{
-    margin:0 0 14px;
-    color: var(--muted);
-    font-weight: 700;
-  }
-
-  .field{ display:flex; gap:10px; align-items:center; }
-  .field input{
-    flex:1;
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(229,231,235,.95);
-    outline:none;
-    background: rgba(255,255,255,.95);
-    font-weight: 900;
-  }
-  .field input:focus{ border-color: #000; box-shadow: var(--focus); }
-
-  .btn{
-    border:none;
-    padding: 10px 14px;
-    border-radius: 12px;
-    cursor:pointer;
-    font-weight: 1000;
-  }
-  .btn.primary{ background: #000; color:#fff; }
-  .btn.ghost{ background: rgba(0,0,0,.06); color:#000; }
-  .actions-row{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top: 14px;
   }
 
   /* ===== Dropdown custom (Status) ===== */
@@ -360,12 +303,10 @@
     box-shadow: var(--focus);
     border-color: #000;
   }
-
-  /* ✅ Mantém vivo mesmo bloqueado */
   .status-dd__btn:disabled{
     cursor:not-allowed;
     opacity: 1;
-    filter: grayscale(0);
+    transform: none;
   }
 
   .status-dd__dot{
@@ -425,14 +366,13 @@
     background: rgba(0,0,0,.08);
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.18);
   }
-
   .status-dd__check{
     font-size: 12px;
     font-weight: 1000;
     color: rgba(0,0,0,.55);
   }
 
-  /* ===== Cores por status (colorido, mas elegante) ===== */
+  /* ===== Cores por status ===== */
   .status-dd[data-status="Ativo"] .status-dd__btn{
     background: rgba(22,163,74,.10);
     border-color: rgba(22,163,74,.45);
@@ -461,6 +401,117 @@
   }
   .status-dd[data-status="Personalizada"] .status-dd__dot{ background: var(--status-personalizada); }
 
+  /* Ações por linha */
+  .row-actions{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+  }
+  .icon-btn{
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    background: rgba(255,255,255,.9);
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .icon-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0,0,0,.10);
+    border-color: rgba(0,0,0,.35);
+  }
+  .icon-btn:disabled{
+    cursor:not-allowed;
+    opacity:.7;
+    transform:none;
+    box-shadow:none;
+  }
+  .icon-btn svg{ width:18px; height:18px; }
+
+  /* Modais */
+  .modal{
+    position:fixed; inset:0;
+    display:none;
+    place-items:center;
+    background: rgba(0,0,0,.55);
+    padding: 18px;
+    z-index: 50;
+  }
+  .modal.show{ display:grid; }
+
+  .dialog{
+    width: min(92vw, 520px);
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(229,231,235,.95);
+    border-radius: 18px;
+    box-shadow: 0 18px 60px rgba(0,0,0,.28);
+    backdrop-filter: blur(10px);
+    padding: 18px;
+  }
+
+  .dialog h3{
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 1000;
+    color: #000;
+  }
+  .dialog p{
+    margin:0 0 14px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .field{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:10px;
+  }
+  .field-col{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+  }
+  .label{
+    font-size: 12px;
+    font-weight: 900;
+    color: rgba(0,0,0,.78);
+  }
+
+  .input{
+    width:100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    outline:none;
+    background: rgba(255,255,255,.95);
+    font-weight: 900;
+  }
+  .input:focus{ border-color: #000; box-shadow: var(--focus); }
+
+  .btn{
+    border:none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor:pointer;
+    font-weight: 1000;
+  }
+  .btn.primary{ background: #000; color:#fff; }
+  .btn.ghost{ background: rgba(0,0,0,.06); color:#000; }
+  .btn.danger{ background: rgba(239,68,68,.12); color: #B91C1C; }
+
+  .actions-row{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
 </style>
 </head>
 
@@ -469,11 +520,18 @@
     <div class="topbar">
       <div class="brandblock">
         <h1 class="title">Produtos <span class="title-accent">Edel White 2026</span></h1>
-        <p class="subtitle">Atualizações diarias dos materiais que estão em estoque</p>
+        <p class="subtitle">Atualizações diárias dos materiais que estão em estoque</p>
       </div>
 
       <div class="actions">
-        <button id="lockBtn" class="lock-btn" title="Desbloquear edição">
+        <button id="addBtn" class="pill-btn" type="button" title="Adicionar produto" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 5v14"></path><path d="M5 12h14"></path>
+          </svg>
+          Novo produto
+        </button>
+
+        <button id="lockBtn" class="pill-btn lock-btn" type="button" title="Desbloquear edição">
           <span class="dot" aria-hidden="true"></span>
           <svg id="lockIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
@@ -490,7 +548,7 @@
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
       <input id="search" class="search-input" placeholder="Buscar por descrição, SKU, status ou previsão…" />
-      <button id="clearBtn" class="search-clear" title="Limpar busca" aria-label="Limpar busca">
+      <button id="clearBtn" class="search-clear" title="Limpar busca" aria-label="Limpar busca" type="button">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -514,25 +572,29 @@
               </button>
             </th>
             <th>Previsão</th>
+            <th class="sku-col">Ações</th>
           </tr>
         </thead>
         <tbody id="lista-produtos">
-          <tr><td colspan="4" class="loading">Carregando produtos do Firebase...</td></tr>
+          <tr><td colspan="5" class="loading">Carregando produtos do Firebase...</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="hint">Dica: clique no cadeado para desbloquear/bloquear a edição de <b>Status</b> e <b>Previsão</b>. A ordenação e o filtro permanecem mesmo após salvar.</p>
+    <p class="hint">
+      Dica: clique no cadeado para desbloquear/bloquear a edição de <b>Status</b>, <b>Previsão</b>, inclusão e exclusão.
+      A ordenação e o filtro permanecem mesmo após salvar.
+    </p>
   </div>
 
   <!-- Modal de senha -->
   <div id="pwdModal" class="modal" aria-hidden="true">
     <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
       <h3 id="dlgTitle">Desbloquear edição</h3>
-      <p>Informe a senha para editar <b>Status</b> e <b>Previsão</b>.</p>
+      <p>Informe a senha para editar <b>Status</b>, <b>Previsão</b> e gerenciar produtos.</p>
 
       <div class="field">
-        <input id="pwdInput" type="password" placeholder="Senha" />
+        <input id="pwdInput" class="input" type="password" placeholder="Senha" />
         <button id="seeBtn" class="btn ghost" type="button">Ver</button>
       </div>
 
@@ -543,10 +605,49 @@
     </div>
   </div>
 
+  <!-- Modal: Novo Produto -->
+  <div id="addModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+      <h3 id="addTitle">Novo produto</h3>
+      <p>Preencha os campos para cadastrar um novo item (sincroniza em tempo real).</p>
+
+      <div class="field-col">
+        <div class="label">Descrição</div>
+        <input id="addDescricao" class="input" type="text" placeholder="Ex: EW-PL70 FITA DENTAL..." />
+      </div>
+
+      <div class="field">
+        <div style="flex:1">
+          <div class="label">SKU</div>
+          <input id="addSku" class="input" type="text" placeholder="Ex: 800-830" />
+        </div>
+        <div style="flex:1">
+          <div class="label">Status</div>
+          <select id="addStatus" class="input" style="font-weight:900">
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+            <option value="Promocional">Promocional</option>
+            <option value="Personalizada">Personalizada</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-col">
+        <div class="label">Previsão</div>
+        <textarea id="addPrevisao" class="previsao-input" style="min-height: 84px" placeholder="Opcional"></textarea>
+      </div>
+
+      <div class="actions-row">
+        <button id="addCancelBtn" class="btn ghost" type="button">Cancelar</button>
+        <button id="addSaveBtn" class="btn primary" type="button">Salvar</button>
+      </div>
+    </div>
+  </div>
+
 <script type="module">
   // ====== FIREBASE IMPORTS ======
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+  import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
   // ====== CONFIG ======
   const firebaseConfig = {
@@ -649,11 +750,21 @@
   const lockIcon = document.getElementById("lockIcon");
   const lockLabel = document.getElementById("lockLabel");
 
+  const addBtn = document.getElementById("addBtn");
+
   const modal = document.getElementById("pwdModal");
   const pwdInput = document.getElementById("pwdInput");
   const unlockBtn = document.getElementById("unlockBtn");
   const cancelBtn = document.getElementById("cancelBtn");
   const seeBtn = document.getElementById("seeBtn");
+
+  const addModal = document.getElementById("addModal");
+  const addDescricao = document.getElementById("addDescricao");
+  const addSku = document.getElementById("addSku");
+  const addStatus = document.getElementById("addStatus");
+  const addPrevisao = document.getElementById("addPrevisao");
+  const addCancelBtn = document.getElementById("addCancelBtn");
+  const addSaveBtn = document.getElementById("addSaveBtn");
 
   const arrowSku = document.getElementById("arrowSku");
   const arrowStatus = document.getElementById("arrowStatus");
@@ -666,10 +777,11 @@
     sort: { key: null, dir: "asc" },
   };
 
-  // ✅ CONTROLE DE EDIÇÃO (não perder foco no textarea)
-  let editingPrevisaoId = null;
-
   const PASSWORD = "5674";
+
+  // ✅ controle para não perder seleção no "Previsão"
+  let editingPrevisaoId = null;
+  let previsaoSaveTimer = null;
 
   // ======= HELPERS =======
   const normalize = s => (s ?? "")
@@ -735,19 +847,28 @@
     return filtered;
   }
 
+  function escHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
   function render(){
     const entries = getVisibleEntries();
     updateSortArrows();
 
     if (!entries.length){
-      tbody.innerHTML = `<tr><td colspan="4" class="empty">Nenhum produto encontrado.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="empty">Nenhum produto encontrado.</td></tr>`;
       return;
     }
 
     const rowsHtml = entries.map(([id, p]) => {
       const statusAtual = (p.status ?? "—").toString();
 
-      // ✅ Se está editando este textarea, preserva o valor atual do DOM
+      // ✅ mantém o valor do textarea atual se estiver editando
       const previsao = (
         editingPrevisaoId === id
           ? (tbody.querySelector(`.previsao-input[data-id="${id}"]`)?.value ?? (p.previsao ?? ""))
@@ -758,21 +879,20 @@
         <tr data-row-id="${id}">
           <td>
             <div class="desc">
-              ${p.descricao ?? ""}
-              <small>• ${statusAtual}</small>
+              ${escHtml(p.descricao ?? "")}
+              <small>• ${escHtml(statusAtual)}</small>
             </div>
           </td>
 
-          <td class="sku-col">${p.sku ?? ""}</td>
+          <td class="sku-col">${escHtml(p.sku ?? "")}</td>
 
           <td class="sku-col">
-            <div class="status-dd" data-id="${id}" data-status="${statusAtual}">
+            <div class="status-dd" data-id="${escHtml(id)}" data-status="${escHtml(statusAtual)}">
               <button class="status-dd__btn" type="button" ${state.locked ? "disabled" : ""} aria-haspopup="listbox" aria-expanded="false">
                 <span style="display:flex;align-items:center;gap:10px;">
                   <span class="status-dd__dot" aria-hidden="true"></span>
-                  <span class="status-dd__label">${statusAtual}</span>
+                  <span class="status-dd__label">${escHtml(statusAtual)}</span>
                 </span>
-
                 <svg class="status-dd__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M6 9l6 6 6-6"></path>
                 </svg>
@@ -792,9 +912,23 @@
           <td>
             <textarea
               class="previsao-input"
-              data-id="${id}"
+              data-id="${escHtml(id)}"
               placeholder="Sem previsão"
-              ${state.locked ? "disabled" : ""}>${previsao.replaceAll("<","&lt;").replaceAll(">","&gt;")}</textarea>
+              ${state.locked ? "disabled" : ""}>${escHtml(previsao)}</textarea>
+          </td>
+
+          <td class="sku-col">
+            <div class="row-actions">
+              <button class="icon-btn btn-delete" type="button" title="Excluir produto" data-id="${escHtml(id)}" ${state.locked ? "disabled" : ""}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M3 6h18"></path>
+                  <path d="M8 6V4h8v2"></path>
+                  <path d="M19 6l-1 14H6L5 6"></path>
+                  <path d="M10 11v6"></path>
+                  <path d="M14 11v6"></path>
+                </svg>
+              </button>
+            </div>
           </td>
         </tr>
       `;
@@ -806,18 +940,7 @@
     tbody.querySelectorAll(".previsao-input").forEach(autoResize);
   }
 
-  // ======= SALVAR PREVISÃO (debounce) =======
-  const debounceMap = new Map();
-  function debounceSave(id, value){
-    if (debounceMap.has(id)) clearTimeout(debounceMap.get(id));
-    const t = setTimeout(() => {
-      update(ref(db, `produtos/${id}`), { previsao: value })
-        .catch(err => console.error("Erro ao atualizar previsão:", err));
-    }, 450);
-    debounceMap.set(id, t);
-  }
-
-  // ✅ Marcar quando começa a editar (não deixar o realtime render derrubar o foco)
+  // ======= PREVISÃO (corrigido: não perder seleção) =======
   tbody.addEventListener("focusin", (e) => {
     const el = e.target;
     if (el.matches(".previsao-input")) {
@@ -825,34 +948,34 @@
     }
   });
 
-  // ✅ Liberar quando sai do campo
   tbody.addEventListener("focusout", (e) => {
     const el = e.target;
     if (el.matches(".previsao-input")) {
+      // salva ao sair do campo (final)
+      const id = el.dataset.id;
       editingPrevisaoId = null;
+
+      if (state.locked) return;
+      update(ref(db, `produtos/${id}`), { previsao: (el.value ?? "").trim() })
+        .catch(err => console.error("Erro ao salvar previsão:", err));
     }
   });
 
   tbody.addEventListener("input", (e) => {
     const el = e.target;
-    if (el.matches(".previsao-input")){
-      autoResize(el);
-      if (state.locked) return;
-      const id = el.dataset.id;
-      debounceSave(id, el.value.trim());
-    }
-  });
+    if (!el.matches(".previsao-input")) return;
 
-  tbody.addEventListener("blur", (e) => {
-    const el = e.target;
-    if (el.matches(".previsao-input")){
-      autoResize(el);
-      if (state.locked) return;
-      const id = el.dataset.id;
-      update(ref(db, `produtos/${id}`), { previsao: el.value.trim() })
-        .catch(err => console.error("Erro ao atualizar previsão:", err));
-    }
-  }, true);
+    autoResize(el);
+    if (state.locked) return;
+
+    // autosave suave (1s parado), sem derrubar foco
+    clearTimeout(previsaoSaveTimer);
+    const id = el.dataset.id;
+    previsaoSaveTimer = setTimeout(() => {
+      update(ref(db, `produtos/${id}`), { previsao: (el.value ?? "").trim() })
+        .catch(err => console.error("Erro ao auto-salvar previsão:", err));
+    }, 1000);
+  });
 
   // ======= DROPDOWN STATUS (custom) =======
   function closeAllDropdowns(except = null){
@@ -867,7 +990,25 @@
   tbody.addEventListener("click", async (e) => {
     const btn = e.target.closest(".status-dd__btn");
     const item = e.target.closest(".status-dd__item");
+    const delBtn = e.target.closest(".btn-delete");
 
+    // Excluir
+    if (delBtn){
+      if (state.locked) return;
+      const id = delBtn.dataset.id;
+      const p = state.produtos?.[id];
+      const nome = p?.descricao ? `\n\n${p.descricao}` : "";
+      if (!confirm(`Excluir este produto?${nome}\n\nEssa ação não pode ser desfeita.`)) return;
+      try{
+        await remove(ref(db, `produtos/${id}`));
+      }catch(err){
+        console.error("Erro ao excluir:", err);
+        alert("Não foi possível excluir. Veja o console.");
+      }
+      return;
+    }
+
+    // Abrir/fechar dropdown
     if (btn){
       const dd = btn.closest(".status-dd");
       if (!dd || state.locked) return;
@@ -879,6 +1020,7 @@
       return;
     }
 
+    // Selecionar status
     if (item){
       const dd = item.closest(".status-dd");
       if (!dd || state.locked) return;
@@ -904,7 +1046,6 @@
       }catch(err){
         console.error("Erro ao atualizar status:", err);
       }
-
       return;
     }
   });
@@ -917,7 +1058,7 @@
     if (e.key === "Escape") closeAllDropdowns();
   });
 
-  // ======= BUSCA (persistente no state) =======
+  // ======= BUSCA (persistente) =======
   searchEl.addEventListener("input", () => {
     state.query = searchEl.value;
     render();
@@ -930,7 +1071,7 @@
     searchEl.focus();
   });
 
-  // ======= ORDENAÇÃO (persistente no state) =======
+  // ======= ORDENAÇÃO (persistente) =======
   document.querySelectorAll(".sort-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const key = btn.dataset.key;
@@ -941,7 +1082,6 @@
       } else {
         state.sort.dir = state.sort.dir === "asc" ? "desc" : "asc";
       }
-
       render();
     });
   });
@@ -951,6 +1091,7 @@
     state.locked = isLocked;
 
     lockBtn.classList.toggle("unlocked", !isLocked);
+    addBtn.disabled = isLocked;
 
     lockIcon.innerHTML = isLocked
       ? '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a 5 5 0 1 1 10 0v4"></path>'
@@ -959,7 +1100,6 @@
     lockLabel.textContent = isLocked ? "Bloqueado" : "Desbloqueado";
     lockBtn.title = isLocked ? "Desbloquear edição" : "Bloquear edição";
 
-    // reaplica disabled nos campos
     render();
   }
 
@@ -1000,6 +1140,84 @@
     if (e.target === modal) cancelBtn.click();
   });
 
+  // ======= NOVO PRODUTO (padrão produto_N) =======
+  function openAddModal(){
+    if (state.locked) return;
+    addDescricao.value = "";
+    addSku.value = "";
+    addStatus.value = "Ativo";
+    addPrevisao.value = "";
+    autoResize(addPrevisao);
+
+    addModal.classList.add("show");
+    addModal.setAttribute("aria-hidden","false");
+    addDescricao.focus();
+  }
+
+  function closeAddModal(){
+    addModal.classList.remove("show");
+    addModal.setAttribute("aria-hidden","true");
+  }
+
+  addBtn.addEventListener("click", openAddModal);
+  addCancelBtn.addEventListener("click", closeAddModal);
+  addModal.addEventListener("click", (e) => { if (e.target === addModal) closeAddModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && addModal.classList.contains("show")) closeAddModal();
+  });
+
+  addPrevisao.addEventListener("input", () => autoResize(addPrevisao));
+
+  function getNextProdutoId(dados){
+    const keys = Object.keys(dados || {});
+    let max = -1;
+    for (const k of keys){
+      const m = /^produto_(\d+)$/i.exec(k);
+      if (m){
+        const n = parseInt(m[1], 10);
+        if (!Number.isNaN(n) && n > max) max = n;
+      }
+    }
+    return `produto_${max + 1}`;
+  }
+
+  addSaveBtn.addEventListener("click", async () => {
+    if (state.locked) return;
+
+    const descricao = addDescricao.value.trim();
+    const sku = addSku.value.trim();
+    const status = addStatus.value;
+    const previsao = addPrevisao.value.trim();
+
+    if (!descricao || !sku){
+      alert("Preencha pelo menos Descrição e SKU.");
+      return;
+    }
+
+    addSaveBtn.disabled = true;
+
+    try{
+      // garante padrão produto_N (igual seu Firebase atual)
+      const snap = await get(produtosRef);
+      const dados = snap.val() || {};
+      const id = getNextProdutoId(dados);
+
+      await set(ref(db, `produtos/${id}`), {
+        descricao,
+        sku,
+        status,
+        previsao
+      });
+
+      closeAddModal();
+    }catch(err){
+      console.error("Erro ao adicionar produto:", err);
+      alert("Não foi possível adicionar. Veja o console.");
+    }finally{
+      addSaveBtn.disabled = false;
+    }
+  });
+
   // ======= INIT (dados uma vez) =======
   function inicializarDadosUmaVez(){
     onValue(produtosRef, (snapshot) => {
@@ -1017,13 +1235,13 @@
     onValue(produtosRef, (snapshot) => {
       state.produtos = snapshot.val() || {};
 
-      // ✅ NÃO re-renderiza enquanto estiver editando a previsão
+      // ✅ não re-renderiza enquanto o usuário está editando previsão (não perder seleção)
       if (!editingPrevisaoId) {
-        render(); // reaplica filtro e ordenação automaticamente
+        render();
       }
     }, (err) => {
       console.error(err);
-      tbody.innerHTML = `<tr><td colspan="4" class="error">Erro ao carregar dados do Firebase.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="error">Erro ao carregar dados do Firebase.</td></tr>`;
     });
   }
 
