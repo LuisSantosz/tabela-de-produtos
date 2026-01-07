@@ -3,346 +3,534 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Produtos Edel+White 2025</title>
+<title>Produtos Edel White 2025</title>
+
 <style>
   :root{
-    --brand-red:#E30613;
-    --brand-dark:#1E1E1E;
-    --bg:#F7F7F8;
-    --muted:#7A7A7A;
-    --radius:12px;
-    /* Cores dos status */
-   --status-ativo: #228B22;
-    --status-inativo: 	#FF0000;
-    --status-promocional: #FF1493;
-    --status-personalizada: #00008B;
+    /* Preto & branco premium */
+    --brand-dark:#0B0B0E;
+    --brand-black:#000000;
+    --brand-white:#FFFFFF;
+
+    --bg:#F5F5F7;
+    --card:#FFFFFF;
+    --line:#E5E7EB;
+    --muted:#6B7280;
+
+    --radius:16px;
+    --shadow: 0 18px 50px rgba(0,0,0,.08);
+
+    /* Status elegantes */
+   --status-ativo: #16A34A;         /* Verde */
+--status-inativo: #EF4444;       /* Vermelho */
+--status-promocional: #7C3AED;   /* Roxo */
+--status-personalizada: #F59E0B; /* Laranja */
+
+
+    --focus: 0 0 0 4px rgba(0,0,0,.12);
   }
+
   *{box-sizing:border-box}
   body{
-    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:#222;
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    background:
+      radial-gradient(1200px 600px at 15% 0%, rgba(0,0,0,.06), transparent 55%),
+      radial-gradient(900px 500px at 85% 10%, rgba(0,0,0,.04), transparent 55%),
+      var(--bg);
+    color:#111827;
   }
+
   .container{
-    max-width:1200px; margin:32px auto; padding:0 16px;
+    max-width:1200px;
+    margin: 28px auto 40px;
+    padding: 0 16px;
   }
 
   /* Header */
-  .page-header{
-    display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
+  .topbar{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:16px;
   }
+
+  .brandblock{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
   .title{
     margin:0;
-    font-weight:800; letter-spacing:.2px;
-    font-size:clamp(22px,3.5vw,36px);
-    color:var(--brand-dark);
+    font-weight:900;
+    letter-spacing:-.02em;
+    font-size: clamp(22px, 3.2vw, 36px);
+    color: var(--brand-dark);
+    line-height:1.1;
   }
   .title-accent{
-    color:var(--brand-red);
+    color:#000;
+    font-weight:900;
   }
+
+  .subtitle{
+    margin:0;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  .lock-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border-radius: 999px;
+    cursor:pointer;
+
+    border: 1px solid rgba(229,231,235,.95);
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 10px 26px rgba(0,0,0,.08);
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+    font-weight:900;
+    color: #000;
+  }
+  .lock-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(0,0,0,.10);
+    border-color: rgba(0,0,0,.35);
+    background: #fff;
+  }
+  .lock-btn .dot{
+    width:10px; height:10px; border-radius:999px;
+    background:#9CA3AF;
+    box-shadow: 0 0 0 4px rgba(0,0,0,.08);
+  }
+  .lock-btn.unlocked .dot{
+    background:#000;
+    box-shadow: 0 0 0 4px rgba(0,0,0,.15);
+  }
+  .lock-btn svg{ width:18px; height:18px; }
 
   /* Search */
   .search-wrap{
-    position:relative; margin:16px 0 20px;
+    position:relative;
+    margin: 14px 0 18px;
   }
   .search-input{
-    width:100%; padding:14px 44px 14px 44px; border-radius:999px;
-    border:1.5px solid #E3E3E7; outline:none; font-size:15px; background:#fff;
-    box-shadow:0 1px 3px rgba(0,0,0,.04);
+    width:100%;
+    padding: 14px 46px 14px 46px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    outline:none;
+    font-size: 15px;
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 12px 30px rgba(0,0,0,.06);
+    backdrop-filter: blur(10px);
+    transition: box-shadow .12s ease, border-color .12s ease;
+    font-weight: 650;
   }
-  .search-input:focus{ border-color:var(--brand-red); box-shadow:0 0 0 4px rgba(227,6,19,.12); }
+  .search-input:focus{
+    border-color: #000;
+    box-shadow: 0 12px 30px rgba(0,0,0,.06), var(--focus);
+  }
   .search-icon{
-    position:absolute; left:14px; top:50%; transform:translateY(-50%); width:20px; height:20px; opacity:.7;
+    position:absolute; left:16px; top:50%; transform:translateY(-50%);
+    width:20px; height:20px; opacity:.6;
   }
   .search-clear{
     position:absolute; right:10px; top:50%; transform:translateY(-50%);
-    border:none; background:transparent; cursor:pointer; padding:6px; border-radius:8px;
+    border:none; background:transparent; cursor:pointer;
+    padding:8px; border-radius:10px;
+    opacity:.75;
   }
+  .search-clear:hover{ background: rgba(0,0,0,.05); opacity: 1; }
 
-  /* Table */
+  /* Card / Table */
   .card{
-    background:#fff; border-radius:var(--radius); overflow:hidden;
-    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    background: rgba(255,255,255,.9);
+    border: 1px solid rgba(229,231,235,.95);
+    border-radius: var(--radius);
+    overflow: visible; /* importante para o dropdown abrir sem cortar */
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
   }
+
   table{ width:100%; border-collapse:collapse; }
+
   thead th{
-    position:sticky; top:0; z-index:2;
-    background:var(--brand-red); color:#fff; text-align:left; padding:14px 12px; font-weight:700;
-    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: linear-gradient(180deg, #0B0B0E 0%, #000000 100%);
+    color:#FFFFFF;
+    text-align:left;
+    padding: 14px 12px;
+    font-weight: 900;
+    letter-spacing:.02em;
   }
-  tbody td{ padding:12px; border-top:1px solid #F0F0F2; }
-  tbody tr:hover{ background:#FFF5F6; }
-  .sku-col{ white-space:nowrap; }
-  
-  /* Status select styling com cores */
-  .status-select {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1.5px solid #E3E3E7;
-    border-radius: 6px;
-    background: white;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-  .status-select:focus {
-    outline: none;
-    border-color: var(--brand-red);
-    box-shadow: 0 0 0 2px rgba(227,6,19,.12);
-  }
-  .status-select:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-    opacity: 0.7;
+  thead th:nth-child(2), thead th:nth-child(3){ text-align:center; }
+
+  tbody td{
+    padding: 12px;
+    border-top: 1px solid var(--line);
+    vertical-align: middle;
   }
 
-/* Campo de previsão (texto livre, auto-resize) */
-.previsao-input{
-  width: 100%;
-  min-height: 36px;          /* altura inicial */
-  line-height: 1.35;
-  padding: 1px 2px;
-  border: 1.5px solid gray;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: all .2s ease;
-  background: whitesmoke;
-  overflow: hidden;          /* esconde scroll vertical enquanto ajusta altura */
-  resize: vertical;  
-  color: black;    /* permite ajustar manualmente se quiser */
-}
-.previsao-input:focus{
-  outline: none;
-  border-color: var(--brand-red);
-  box-shadow: 0 0 0 2px rgba(227,6,19,.12);
-}
-.previsao-input:disabled{
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-.previsao-input::placeholder{
-  text-align: center;
-}
+  tbody tr:nth-child(even){ background: rgba(245,245,247,.55); }
+  tbody tr:hover{ background: rgba(0,0,0,.04); }
 
+  .sku-col{ white-space: nowrap; text-align:center; font-weight:900; color:#0B0B0E; }
 
-  /* Cores específicas para cada status */
-  .status-select option[value="Ativo"] {
-    background: var(--status-ativo);
-    color: white;
+  .desc{
+    font-weight:900;
+    color:#0B0B0E;
+    letter-spacing:.01em;
   }
-  .status-select option[value="Inativo"] {
-    background: var(--status-inativo);
-    color: white;
-  }
-  .status-select option[value="Promocional"] {
-    background: var(--status-promocional);
-    color: white;
-  }
-  .status-select option[value="Personalizada"] {
-    background: var(--status-personalizada);
-    color: white;
+  .desc small{
+    display:block;
+    margin-top:3px;
+    font-weight:700;
+    color: var(--muted);
   }
 
-  /* Estilos para o select baseado no valor selecionado */
-  .status-select[data-status="Ativo"] {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: var(--status-ativo);
-    color: var(--status-ativo);
+  .sort-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background: transparent;
+    border: 0;
+    color:#fff;
+    cursor:pointer;
+    font: inherit;
+    font-weight: 1000;
+    padding: 0;
   }
-  .status-select[data-status="Inativo"] {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: var(--status-inativo);
-    color: var(--status-inativo);
+  .sort-btn:hover{ opacity:.9; }
+  .sort-btn:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:3px;
+    border-radius:10px;
   }
-  .status-select[data-status="Promocional"] {
-    background: rgba(139, 92, 246, 0.1);
-    border-color: var(--status-promocional);
-    color: var(--status-promocional);
-  }
-  .status-select[data-status="Personalizada"] {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--status-personalizada);
-    color: var(--status-personalizada);
-  }
+  .sort-btn .arrow{ font-weight:1000; opacity:.95; }
 
-  /* Badges para visualização alternativa */
-  .status-badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
+  /* Previsão textarea */
+  .previsao-input{
+    width:100%;
+    min-height: 38px;
+    line-height: 1.35;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    background: rgba(255,255,255,.9);
+    outline:none;
+    resize: none;
+    overflow:hidden;
+    transition: box-shadow .12s ease, border-color .12s ease;
+    font-weight: 700;
+    color:#0B0B0E;
   }
-  .status-badge.ativo {
-    background: var(--status-ativo);
-    color: white;
+  .previsao-input:focus{ border-color: #000; box-shadow: var(--focus); }
+  .previsao-input:disabled{
+    cursor:not-allowed;
+    opacity:.65;
+    background: rgba(245,245,247,.85);
   }
-  .status-badge.inativo {
-    background: var(--status-inativo);
-    color: white;
-  }
-  .status-badge.promocional {
-    background: var(--status-promocional);
-    color: white;
-  }
-  .status-badge.personalizada {
-    background: var(--status-personalizada);
-    color: white;
-  }
+  .previsao-input::placeholder{ color: rgba(107,114,128,.85); }
 
-  /* Lock button in header */
-  .lock-btn{
-    display:inline-flex; align-items:center; gap:8px;
-    color:#fff; background:transparent; border:none; cursor:pointer; margin-left:6px;
-    font:inherit; padding:4px 8px; border-radius:8px;
+  .hint{
+    margin: 12px 2px 0;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 650;
   }
+  .hint b{ color: #0B0B0E; }
 
-  /* Container de ações no topo */
-.page-actions{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-/* Cadeado quando posicionado no topo (fundo claro) */
-.lock-btn.top{
-  color: var(--brand-red);
-  background: #fff;
-  border: 1px solid #E3E3E7;
-  padding: 8px 12px;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.04);
-}
-.lock-btn.top:hover{
-  background: #FFF5F6;
-  border-color: var(--brand-red);
-}
-.lock-btn.top .lock-icon{
-  stroke: currentColor;
-}
-
+  .loading, .empty, .error{
+    text-align:center;
+    padding: 22px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .error{
+    color: #000;
+    background: rgba(0,0,0,.06);
+  }
 
   /* Modal */
   .modal{
-    position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.4);
+    position:fixed; inset:0;
+    display:none;
+    place-items:center;
+    background: rgba(0,0,0,.55);
+    padding: 18px;
+    z-index: 50;
   }
   .modal.show{ display:grid; }
+
   .dialog{
-    background:#fff; padding:22px; width:min(92vw,420px); border-radius:16px;
-    box-shadow:0 12px 28px rgba(0,0,0,.18);
+    width: min(92vw, 420px);
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(229,231,235,.95);
+    border-radius: 18px;
+    box-shadow: 0 18px 60px rgba(0,0,0,.28);
+    backdrop-filter: blur(10px);
+    padding: 18px;
   }
-  .dialog h3{ margin:0 0 10px; color:var(--brand-dark); }
-  .dialog p{ margin:0 0 16px; color:var(--muted); }
-  .field{ display:flex; gap:10px; }
-  .field input{
-    flex:1; padding:12px 14px; border-radius:10px; border:1.5px solid #E1E1E5; outline:none;
+  .dialog h3{
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 1000;
+    color: #000;
   }
-  .field input:focus{ border-color:var(--brand-red); box-shadow:0 0 0 4px rgba(227,6,19,.12); }
-  .actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
-  .btn{
-    border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600;
-  }
-  .btn.primary{ background:var(--brand-red); color:#fff; }
-  .btn.ghost{ background:#F1F2F4; color:#222; }
-  .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
-
-.sort-btn{
-  display:inline-flex; align-items:center; gap:6px;
-  background:transparent; border:0; color:#fff; cursor:pointer; padding:0; font:inherit;
-}
-.sort-btn:hover{ opacity:.8; }
-th .sort-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-radius:6px; }
-.sort-btn .arrow{ font-weight:700; }
-
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 20px;
+  .dialog p{
+    margin:0 0 14px;
     color: var(--muted);
+    font-weight: 700;
   }
-  .error {
-    text-align: center;
-    padding: 20px;
-    color: var(--brand-red);
-    background: #ffe6e6;
-    border-radius: var(--radius);
-    margin: 10px 0;
+
+  .field{ display:flex; gap:10px; align-items:center; }
+  .field input{
+    flex:1;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    outline:none;
+    background: rgba(255,255,255,.95);
+    font-weight: 900;
   }
+  .field input:focus{ border-color: #000; box-shadow: var(--focus); }
+
+  .btn{
+    border:none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor:pointer;
+    font-weight: 1000;
+  }
+  .btn.primary{ background: #000; color:#fff; }
+  .btn.ghost{ background: rgba(0,0,0,.06); color:#000; }
+  .actions-row{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top: 14px;
+  }
+
+  /* ===== Dropdown custom (Status) ===== */
+  .status-dd{
+    position: relative;
+    width: 100%;
+    max-width: 190px;
+    margin: 0 auto;
+  }
+
+  .status-dd__btn{
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(229,231,235,.95);
+    background: rgba(255,255,255,.95);
+    cursor: pointer;
+
+    font-weight: 1000;
+    letter-spacing: .01em;
+    transition: box-shadow .12s ease, border-color .12s ease, transform .08s ease, background .12s ease;
+    color:#000;
+  }
+  .status-dd__btn:hover{ transform: translateY(-.5px); }
+  .status-dd__btn:focus-visible{
+    outline:none;
+    box-shadow: var(--focus);
+    border-color: #000;
+  }
+ 
+
+  .status-dd__dot{
+    width:10px; height:10px;
+    border-radius:999px;
+    box-shadow: 0 0 0 4px rgba(0,0,0,.06);
+    background:#9CA3AF;
+  }
+
+  .status-dd__chev{
+    width: 18px; height: 18px;
+    opacity:.75;
+  }
+
+  .status-dd__menu{
+    position:absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    z-index: 30;
+
+    padding: 8px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(229,231,235,.95);
+    box-shadow: 0 18px 50px rgba(0,0,0,.14);
+    backdrop-filter: blur(10px);
+
+    display:none;
+  }
+  .status-dd.open .status-dd__menu{ display:block; }
+
+  .status-dd__item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    border:0;
+    background: transparent;
+    cursor:pointer;
+
+    padding: 10px 10px;
+    border-radius: 12px;
+    font-weight: 1000;
+    color:#000;
+
+    transition: background .12s ease, transform .08s ease;
+  }
+  .status-dd__item:hover{
+    background: rgba(0,0,0,.06);
+    transform: translateY(-.5px);
+  }
+  .status-dd__item[aria-selected="true"]{
+    background: rgba(0,0,0,.08);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.18);
+  }
+
+  .status-dd__check{
+    font-size: 12px;
+    font-weight: 1000;
+    color: rgba(0,0,0,.55);
+  }
+
+  /* Cores P&B por status */
+  /* ===== Cores por status (colorido, mas ainda elegante) ===== */
+.status-dd[data-status="Ativo"] .status-dd__btn{
+  background: rgba(22,163,74,.10);
+  border-color: rgba(22,163,74,.45);
+  color: var(--status-ativo);
+}
+.status-dd[data-status="Ativo"] .status-dd__dot{ background: var(--status-ativo); }
+
+.status-dd[data-status="Inativo"] .status-dd__btn{
+  background: rgba(239,68,68,.10);
+  border-color: rgba(239,68,68,.45);
+  color: var(--status-inativo);
+}
+.status-dd[data-status="Inativo"] .status-dd__dot{ background: var(--status-inativo); }
+
+.status-dd[data-status="Promocional"] .status-dd__btn{
+  background: rgba(124,58,237,.10);
+  border-color: rgba(124,58,237,.45);
+  color: var(--status-promocional);
+}
+.status-dd[data-status="Promocional"] .status-dd__dot{ background: var(--status-promocional); }
+
+.status-dd[data-status="Personalizada"] .status-dd__btn{
+  background: rgba(245,158,11,.12);
+  border-color: rgba(245,158,11,.50);
+  color: var(--status-personalizada);
+}
+.status-dd[data-status="Personalizada"] .status-dd__dot{ background: var(--status-personalizada); }
+
+
 </style>
 </head>
 
 <body>
   <div class="container">
-   <div class="page-header">
-  <h1 class="title">Produtos <span class="title-accent">Edel White 2025</span></h1>
+    <div class="topbar">
+      <div class="brandblock">
+        <h1 class="title">Produtos <span class="title-accent">Edel White 2026</span></h1>
+        <p class="subtitle">Atualizações diarias dos materiais que estão em estoque</p>
+      </div>
 
-  <!-- NOVO: ações do topo -->
-  <div class="page-actions">
-    <button id="lockBtn" class="lock-btn top" title="Desbloquear edição">
-      <svg id="lockIcon" class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
-        <path d="M7 11V7a 5 5 0 1 1 10 0v4"></path>
-      </svg>
-      <span id="lockLabel">Bloqueado</span>
-    </button>
-  </div>
-</div>
-
+      <div class="actions">
+        <button id="lockBtn" class="lock-btn" title="Desbloquear edição">
+          <span class="dot" aria-hidden="true"></span>
+          <svg id="lockIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+            <path d="M7 11V7a 5 5 0 1 1 10 0v4"></path>
+          </svg>
+          <span id="lockLabel">Bloqueado</span>
+        </button>
+      </div>
+    </div>
 
     <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-      <input id="search" class="search-input" placeholder="Buscar por descrição, SKU ou status…" />
-      <button id="clearBtn" class="search-clear" title="Limpar busca">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+      <input id="search" class="search-input" placeholder="Buscar por descrição, SKU, status ou previsão…" />
+      <button id="clearBtn" class="search-clear" title="Limpar busca" aria-label="Limpar busca">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
 
     <div class="card">
       <table id="productsTable">
-       <thead>
-  <tr>
-    <th>Descrição</th>
-    <th class="sku-col">
-      <button type="button" class="sort-btn" data-col="1" aria-label="Ordenar por SKU">
-        <span class="label">SKU</span> <span class="arrow">⇅</span>
-      </button>
-    </th>
-  <th>
-  <button type="button" class="sort-btn" data-col="2" aria-label="Ordenar por Status">
-    <span class="label">Status</span> <span class="arrow">⇅</span>
-  </button>
-</th>
-
-    <th>Previsão</th>
-  </tr>
-</thead>
-
-        <tbody id="lista-produtos">
+        <thead>
           <tr>
-            <td colspan="3" class="loading">Carregando produtos do Firebase...</td>
+            <th>Descrição</th>
+            <th class="sku-col">
+              <button type="button" class="sort-btn" data-key="sku" aria-label="Ordenar por SKU">
+                <span>SKU</span> <span class="arrow" id="arrowSku">⇅</span>
+              </button>
+            </th>
+            <th class="sku-col">
+              <button type="button" class="sort-btn" data-key="status" aria-label="Ordenar por Status">
+                <span>Status</span> <span class="arrow" id="arrowStatus">⇅</span>
+              </button>
+            </th>
+            <th>Previsão</th>
           </tr>
+        </thead>
+        <tbody id="lista-produtos">
+          <tr><td colspan="4" class="loading">Carregando produtos do Firebase...</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="hint">Dica: clique no cadeado para desbloquear/ bloquear a edição da coluna <b>Status</b>.</p>
+    <p class="hint">Dica: clique no cadeado para desbloquear/bloquear a edição de <b>Status</b> e <b>Previsão</b>. A ordenação e o filtro permanecem mesmo após salvar.</p>
   </div>
 
   <!-- Modal de senha -->
   <div id="pwdModal" class="modal" aria-hidden="true">
     <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
       <h3 id="dlgTitle">Desbloquear edição</h3>
-      <p>Informe a senha para editar os valores da coluna <b>Status</b>.</p>
+      <p>Informe a senha para editar <b>Status</b> e <b>Previsão</b>.</p>
+
       <div class="field">
         <input id="pwdInput" type="password" placeholder="Senha" />
         <button id="seeBtn" class="btn ghost" type="button">Ver</button>
       </div>
-      <div class="actions">
+
+      <div class="actions-row">
         <button id="cancelBtn" class="btn ghost" type="button">Cancelar</button>
         <button id="unlockBtn" class="btn primary" type="button">Desbloquear</button>
       </div>
@@ -350,383 +538,464 @@ th .sort-btn:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-r
   </div>
 
 <script type="module">
- // ====== IMPORTS FIREBASE ======
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+  // ====== FIREBASE IMPORTS ======
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-// ====== CONFIGURAÇÃO DO SEU PROJETO ======
-const firebaseConfig = {
-  apiKey: "AIzaSyC1D-4GxAbWrD1TYeBl5Aeiq6UaJVCHA14",
-  authDomain: "produtosedelwhite.firebaseapp.com",
-  databaseURL: "https://produtosedelwhite-default-rtdb.firebaseio.com",
-  projectId: "produtosedelwhite",
-  storageBucket: "produtosedelwhite.firebasestorage.app",
-  messagingSenderId: "61520958217",
-  appId: "1:61520958217:web:8214c3af026d72f1c7f9d8"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const produtosRef = ref(db, "produtos");
-
-const lista = document.getElementById("lista-produtos");
-let edicaoAtiva = false;
-
-// Dados iniciais dos produtos
-const produtosIniciais = [
-  { descricao: "EW-MULT12 CREME DENTAL MULTIPLOS 12 ML", sku: "000-500", status: "Promocional" },
-  { descricao: "EW-MULT12 CREME DENTAL INFANTIL MULTIPLOS 9 ML", sku: "000-501", status: "Promocional" },
-  { descricao: "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PERSONALIZADA", sku: "001-104", status: "Personalizada" },
-  { descricao: "EW-BRD ESCOVA DE DENTES PORTÁTIL FLOSSERBRUSH TO GO PERSONALIZADA", sku: "001-124", status: "Personalizada" },
-  { descricao: "EW-BVW24 ESCOVA DE DENTES WHITENING PERSONALIZADA", sku: "001-128", status: "Personalizada" },
-  { descricao: "EW-CC ESCOVA DE DENTES CLEAN CURL CURVED PERSONALIZADA", sku: "001-129", status: "Personalizada" },
-  { descricao: "EW-BVD24 ESCOVA DE DENTES FLOSSERBRUSH SOFT PERSONALIZADA", sku: "001-134", status: "Personalizada" },
-  { descricao: "EW-K4D ESCOVA DE DENTES FLOSSERBRUSH KIDS PERSONALIZADA", sku: "001-141", status: "Personalizada" },
-  { descricao: "EW-BGUMP24 ESCOVA DE DENTES PRO GUMS IN BULK PERSONALIZADA", sku: "001-278", status: "Personalizada" },
-  { descricao: "EW-BORTHO24 ESCOVA DE  DENTES PRO ORTHO IN BULK PERSONALIZADA", sku: "001-279", status: "Personalizada" },
-  { descricao: "EW-KIT BASICO PERSONALIZADO", sku: "001-401", status: "Personalizada" },
-  { descricao: "EW-BSTL3 ESCOVA UNITUFO PERSONALIZADA", sku: "001-731", status: "Personalizada" },
- 
-  { descricao: "EW-VSD2 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET DUO", sku: "100-105", status: "Inativo" },
-  { descricao: "EW-VSD ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET SINGLE", sku: "100-103", status: "Ativo" },
-  { descricao: "EW-VSDF ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT FOIL", sku: "100-109", status: "Inativo" },
-  { descricao: "EW-VD ESCOVA DE DENTES FLOSSERBRUSH SOFT PET", sku: "100-114", status: "Inativo" },
-  { descricao: "EW-VW ESCOVA DE DENTES WHITENING", sku: "100-119", status: "Ativo" },
-  { descricao: "EW-CC ESCOVA DE DENTES CLEANCURL CURVED", sku: "100-129", status: "Ativo" },
-  { descricao: "EW-ORTHO ESCOVA DE DENTES PRO ORTHO", sku: "100-131", status: "Ativo" },
-  { descricao: "EWK4D ESCOVA DE DENTES FLOSSERBRUSH KIDS", sku: "100-141", status: "Ativo" },
-  { descricao: "EW-WJR9 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK 3", sku: "100-159", status: "Ativo" },
-  { descricao: "EW-SG2F CABECAS DE ESCOVA SONIC GENERATION FOCUS DUO", sku: "100-164", status: "Ativo" },
-  { descricao: "FLOSSERPIK PRO STATION", sku: "100-165", status: "Ativo" },
-  { descricao: "EW-WJR5 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK", sku: "100-167", status: "Ativo" },
-  { descricao: "EW-WJ180 IRRIGADOR ORAL PORTATIL FLOSSERPICK POWER SPA", sku: "100-171", status: "Inativo" },
-  { descricao: "EW-WJR2 PONTAS DE REPOSICAO IRRIGADOR ORAL PORTATIL POWER SPA", sku: "100-172", status: "Ativo" },
-  { descricao: "EW-WJR3 PONTA DE REPOSICAO DO IRRIGADOR ORAL PRO STATION", sku: "100-173", status: "Inativo" },
-  { descricao: "EW-SG2A CABECA DE ESCOVA DE DENTES SONIC CLEAN CURL", sku: "100-185", status: "Ativo" },
-  { descricao: "EW-SG2W CABECAS DE ESCOVA SONIC GENERATION WHITENING", sku: "100-189", status: "Ativo" },
-  { descricao: "EW-SG2A CABECAS DE ESCOVA DE DENTES SONIC GENERATION WINNER", sku: "100-192", status: "Ativo" },
-  { descricao: "EW-SG2B CABECAS DE ESCOVA DE DENTES SONIC TARGET & FOCUS", sku: "100-193", status: "Inativo" },
-  { descricao: "EW-SG8 ESCOVA DE DENTES SONIC GENERATION HEALTH SUITE", sku: "100-199", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SSS (SACO COM 25 UNIDADES)", sku: "100-242", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SS (SACO COM 25 UNIDADES)", sku: "100-243", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL S (SACO COM 25 UNIDADES)", sku: "100-244", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL M (SACO COM 25 UNIDADES)", sku: "100-245", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL L (SACO COM 25 UNIDADES)", sku: "100-246", status: "Ativo" },
-  { descricao: "EW-ID7.25 ESCOVA INTERDENTAL XS (SACO COM 25 UNIDADES)", sku: "100-247", status: "Inativo" },
-  { descricao: "EW-GUMP ESCOVA DE DENTES PRO GUMS", sku: "100-256", status: "Ativo" },
-  { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 75 ML", sku: "100-294", status: "Ativo" },
-  { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 12 ML", sku: "100-295", status: "Inativo" },
-  { descricao: "EW-TD ESCOVA DE DENTES PORTATIL FLOSSERBRUSH TO GO", sku: "130-118", status: "Ativo" },
-  { descricao: "EW-ID7 XS ESCOVA INTERDENTAL 0.42MM", sku: "300-331", status: "Inativo" },
-  { descricao: "EW-ID7 SSS ESCOVA INTERDENTAL 0.45MM", sku: "300-332", status: "Ativo" },
-  { descricao: "EW-ID7 SS ESCOVA INTERDENTAL 0.5MM", sku: "300-333", status: "Ativo" },
-  { descricao: "EW-ID7 S ESCOVA INTERDENTAL 0.6MM", sku: "300-334", status: "Ativo" },
-  { descricao: "EW-ID7 M ESCOVA INTERDENTAL 0,7MM", sku: "300-335", status: "Ativo" },
-  { descricao: "EW-ID7 L ESCOVA INTERDENTAL 0.8MM", sku: "300-336", status: "Ativo" },
-  { descricao: "EW-ID7.40A ESCOVA INTERDENTAL", sku: "300-381", status: "Ativo" },
-  { descricao: "EW-DISPLAY DE ACRILICO", sku: "400-417", status: "Ativo" },
-  { descricao: "EW-SR75 CREME DENTAL STOP SENSITIVE 75 ML", sku: "500-505", status: "Ativo" },
-  { descricao: "EW-GUM75 CREME DENTAL CARE FORTE 75 ML", sku: "500-510", status: "Ativo" },
-  { descricao: "EW-TW75 CREME DENTAL ANTIPLACA + BRANQUEADOR 75 ML", sku: "500-511", status: "Ativo" },
-  { descricao: "EW-GUM12 CREME DENTAL CARE FORTE 12 ML", sku: "500-520", status: "Inativo" },
-  { descricao: "EW-TW12 CREME DENTAL ANTIPLACA + BRANQUEADOR 12 ML", sku: "500-521", status: "Ativo" },
-  { descricao: "EW KF7 CREME DENTAL INFANTIL FRUCHTLI KIDS 7", sku: "500-532", status: "Ativo" },
-  { descricao: "EW-MR400 ANTISSEPTICO BUCAL FRESH + PROTECT 400 ML", sku: "500-541", status: "Ativo" },
-  { descricao: "EW-MR50 ANTISSEPTICO BUCAL FRESH + PROTECT 50 ML", sku: "500-542", status: "Promocional" },
-  { descricao: "EW-CHX1.2 ENXAQUATORIO 0.00 BUCAL PERIO STOP IRRITATION 300 ML", sku: "500-556", status: "Inativo" },
-  { descricao: "EW-TC4 LIMPADOR DE LINGUA", sku: "700-711", status: "Ativo" },
-  { descricao: "EW-STL3 ESCOVA UNITUFO", sku: "700-731", status: "Ativo" },
-  { descricao: "EW-PCR250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-828", status: "Ativo" },
-  { descricao: "EW-PC70 FITA DENTAL ENCERADA EASY TAPE 70 METROS LIMAO", sku: "800-829", status: "Ativo" },
-  { descricao: "EW-PL70 FITA DENTAL ENCERADA EASY TAPE 70 METROS MENTA", sku: "800-830", status: "Ativo" },
-  { descricao: "EW-PL5 FITA DENTAL ENCERADA EASY TAPE 5 METROS MENTA", sku: "800-831", status: "Promocional" },
-  { descricao: "EW-PL250 DISPENSER FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-832", status: "Ativo" },
-  { descricao: "EW-PL250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS MENTA", sku: "800-833", status: "Ativo" },
-  { descricao: "EW-BPS50 PICK STICKS", sku: "800-836", status: "Ativo" },
-  { descricao: "EWWF40 FIO DENTAL SOFT WOVEN", sku: "800-850", status: "Ativo" },
-  { descricao: "EW-WF5 FIO SOFT WOVEN 5 METROS CANELA", sku: "800-851", status: "Promocional" },
-  { descricao: "EW-EF25 FIO DENTAL EXPANDING SUPERFLOSS 25 METROS", sku: "800-852", status: "Ativo" },
-  { descricao: "EW-XF50 FIO DENTAL SUPERSOFT FLOSS", sku: "800-853", status: "Ativo" },
-];
-
-// Função para inicializar dados no Firebase apenas uma vez
-function inicializarDados() {
-  onValue(produtosRef, (snapshot) => {
-    const dados = snapshot.val();
-    
-    // Se não há dados no Firebase, carrega os dados iniciais
-    if (!dados || Object.keys(dados).length === 0) {
-      console.log("Inicializando dados no Firebase...");
-      const dadosIniciais = {};
-      produtosIniciais.forEach((produto, index) => {
-        dadosIniciais[`produto_${index}`] = produto;
-      });
-      
-      set(produtosRef, dadosIniciais)
-        .then(() => {
-          console.log("Dados iniciais carregados com sucesso!");
-          carregarTabela(); // Carrega a tabela após inicializar
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar dados iniciais:", error);
-        });
-    } else {
-      console.log("Dados já existem no Firebase, carregando tabela...");
-      carregarTabela(); // Carrega a tabela se dados já existem
-    }
-  }, { onlyOnce: true });
-}
-
-// Função para atualizar a cor do select baseado no status
-function atualizarCorStatus(selectElement, status) {
-  // Remove todas as classes de status anteriores
-  selectElement.removeAttribute('data-status');
-  // Adiciona a classe correspondente ao status atual
-  selectElement.setAttribute('data-status', status);
-}
-
-// Função para carregar a tabela
-function carregarTabela() {
-  onValue(produtosRef, (snapshot) => {
-    const dados = snapshot.val() || {};
-    console.log("Carregando tabela com", Object.keys(dados).length, "produtos");
-    
-    lista.innerHTML = "";
-
-    Object.entries(dados).forEach(([id, produto]) => {
-      const linha = document.createElement("tr");
-      linha.innerHTML = `
-        <td>${produto.descricao}</td>
-        <td class="sku-col">${produto.sku}</td>
-        <td>
-          <select class="status-select" data-id="${id}" ${!edicaoAtiva ? "disabled" : ""}>
-            <option value="Ativo" ${produto.status === "Ativo" ? "selected" : ""}>Ativo</option>
-            <option value="Inativo" ${produto.status === "Inativo" ? "selected" : ""}>Inativo</option>
-            <option value="Promocional" ${produto.status === "Promocional" ? "selected" : ""}>Promocional</option>
-            <option value="Personalizada" ${produto.status === "Personalizada" ? "selected" : ""}>Personalizada</option>
-          </select>
-        </td>
-        <td>
-  <textarea
-    class="previsao-input"
-    placeholder="Sem previsão"
-    data-id="${id}"
-    ${!edicaoAtiva ? "disabled" : ""}>${produto.previsao || ''}</textarea>
- </td>
-      `;
-      lista.appendChild(linha);
-      
-      // Aplica a cor inicial baseada no status
-      const select = linha.querySelector('.status-select');
-      atualizarCorStatus(select, produto.status);
-    });
-
-    // Listeners: atualizar STATUS
-    document.querySelectorAll(".status-select").forEach(select => {
-      select.addEventListener("change", e => {
-        if (!edicaoAtiva) return;
-        const id = e.target.dataset.id;
-        const novoStatus = e.target.value;
-        atualizarCorStatus(e.target, novoStatus);
-        update(ref(db, `produtos/${id}`), { status: novoStatus })
-          .then(() => console.log("Status atualizado com sucesso"))
-          .catch((error) => console.error("Erro ao atualizar status:", error));
-      });
-    });
-
-// Listeners: atualizar PREVISÃO (texto livre) — salva ao terminar de digitar
-document.querySelectorAll(".previsao-input").forEach(input => {
-  const salvar = (e) => {
-    if (!edicaoAtiva) return;
-    const id = e.target.dataset.id;
-    const novaPrevisao = e.target.value.trim();
-    update(ref(db, `produtos/${id}`), { previsao: novaPrevisao })
-      .then(() => console.log("Previsão atualizada"))
-      .catch((error) => console.error("Erro ao atualizar previsão:", error));
+  // ====== CONFIG ======
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1D-4GxAbWrD1TYeBl5Aeiq6UaJVCHA14",
+    authDomain: "produtosedelwhite.firebaseapp.com",
+    databaseURL: "https://produtosedelwhite-default-rtdb.firebaseio.com",
+    projectId: "produtosedelwhite",
+    storageBucket: "produtosedelwhite.firebasestorage.app",
+    messagingSenderId: "61520958217",
+    appId: "1:61520958217:web:8214c3af026d72f1c7f9d8"
   };
 
-  // Salva quando o campo perde o foco ou quando o valor muda e o usuário confirma
-  input.addEventListener("blur", salvar);
-  input.addEventListener("change", salvar);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const produtosRef = ref(db, "produtos");
 
-  // Opcional: salvar ao pressionar Enter (e sair do campo para evitar re-render no meio da digitação)
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      e.target.blur(); // dispara o 'blur' -> salvar()
-    }
-  });
-});
+  // ======= DADOS INICIAIS =======
+  const produtosIniciais = [
+    { descricao: "EW-MULT12 CREME DENTAL MULTIPLOS 12 ML", sku: "000-500", status: "Promocional" },
+    { descricao: "EW-MULT12 CREME DENTAL INFANTIL MULTIPLOS 9 ML", sku: "000-501", status: "Promocional" },
+    { descricao: "EW-BVSD24 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PERSONALIZADA", sku: "001-104", status: "Personalizada" },
+    { descricao: "EW-BRD ESCOVA DE DENTES PORTÁTIL FLOSSERBRUSH TO GO PERSONALIZADA", sku: "001-124", status: "Personalizada" },
+    { descricao: "EW-BVW24 ESCOVA DE DENTES WHITENING PERSONALIZADA", sku: "001-128", status: "Personalizada" },
+    { descricao: "EW-CC ESCOVA DE DENTES CLEAN CURL CURVED PERSONALIZADA", sku: "001-129", status: "Personalizada" },
+    { descricao: "EW-BVD24 ESCOVA DE DENTES FLOSSERBRUSH SOFT PERSONALIZADA", sku: "001-134", status: "Personalizada" },
+    { descricao: "EW-K4D ESCOVA DE DENTES FLOSSERBRUSH KIDS PERSONALIZADA", sku: "001-141", status: "Personalizada" },
+    { descricao: "EW-BGUMP24 ESCOVA DE DENTES PRO GUMS IN BULK PERSONALIZADA", sku: "001-278", status: "Personalizada" },
+    { descricao: "EW-BORTHO24 ESCOVA DE  DENTES PRO ORTHO IN BULK PERSONALIZADA", sku: "001-279", status: "Personalizada" },
+    { descricao: "EW-KIT BASICO PERSONALIZADO", sku: "001-401", status: "Personalizada" },
+    { descricao: "EW-BSTL3 ESCOVA UNITUFO PERSONALIZADA", sku: "001-731", status: "Personalizada" },
 
-})
-}
+    { descricao: "EW-VSD2 ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET DUO", sku: "100-105", status: "Inativo" },
+    { descricao: "EW-VSD ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT PET SINGLE", sku: "100-103", status: "Ativo" },
+    { descricao: "EW-VSDF ESCOVA DE DENTES FLOSSERBRUSH ULTRASOFT FOIL", sku: "100-109", status: "Inativo" },
+    { descricao: "EW-VD ESCOVA DE DENTES FLOSSERBRUSH SOFT PET", sku: "100-114", status: "Inativo" },
+    { descricao: "EW-VW ESCOVA DE DENTES WHITENING", sku: "100-119", status: "Ativo" },
+    { descricao: "EW-CC ESCOVA DE DENTES CLEANCURL CURVED", sku: "100-129", status: "Ativo" },
+    { descricao: "EW-ORTHO ESCOVA DE DENTES PRO ORTHO", sku: "100-131", status: "Ativo" },
+    { descricao: "EWK4D ESCOVA DE DENTES FLOSSERBRUSH KIDS", sku: "100-141", status: "Ativo" },
+    { descricao: "EW-WJR9 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK 3", sku: "100-159", status: "Ativo" },
+    { descricao: "EW-SG2F CABECAS DE ESCOVA SONIC GENERATION FOCUS DUO", sku: "100-164", status: "Ativo" },
+    { descricao: "FLOSSERPIK PRO STATION", sku: "100-165", status: "Ativo" },
+    { descricao: "EW-WJR5 PONTAS DE REPOSICAO IRRIGADOR ORAL FLOSSERPIK", sku: "100-167", status: "Ativo" },
+    { descricao: "EW-WJ180 IRRIGADOR ORAL PORTATIL FLOSSERPICK POWER SPA", sku: "100-171", status: "Inativo" },
+    { descricao: "EW-WJR2 PONTAS DE REPOSICAO IRRIGADOR ORAL PORTATIL POWER SPA", sku: "100-172", status: "Ativo" },
+    { descricao: "EW-WJR3 PONTA DE REPOSICAO DO IRRIGADOR ORAL PRO STATION", sku: "100-173", status: "Inativo" },
+    { descricao: "EW-SG2A CABECA DE ESCOVA DE DENTES SONIC CLEAN CURL", sku: "100-185", status: "Ativo" },
+    { descricao: "EW-SG2W CABECAS DE ESCOVA SONIC GENERATION WHITENING", sku: "100-189", status: "Ativo" },
+    { descricao: "EW-SG2A CABECAS DE ESCOVA DE DENTES SONIC GENERATION WINNER", sku: "100-192", status: "Ativo" },
+    { descricao: "EW-SG2B CABECAS DE ESCOVA DE DENTES SONIC TARGET & FOCUS", sku: "100-193", status: "Inativo" },
+    { descricao: "EW-SG8 ESCOVA DE DENTES SONIC GENERATION HEALTH SUITE", sku: "100-199", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SSS (SACO COM 25 UNIDADES)", sku: "100-242", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL SS (SACO COM 25 UNIDADES)", sku: "100-243", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL S (SACO COM 25 UNIDADES)", sku: "100-244", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL M (SACO COM 25 UNIDADES)", sku: "100-245", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL L (SACO COM 25 UNIDADES)", sku: "100-246", status: "Ativo" },
+    { descricao: "EW-ID7.25 ESCOVA INTERDENTAL XS (SACO COM 25 UNIDADES)", sku: "100-247", status: "Inativo" },
+    { descricao: "EW-GUMP ESCOVA DE DENTES PRO GUMS", sku: "100-256", status: "Ativo" },
+    { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 75 ML", sku: "100-294", status: "Ativo" },
+    { descricao: "EW-OT75 CREME DENTAL OSMOTONIC 12 ML", sku: "100-295", status: "Inativo" },
+    { descricao: "EW-TD ESCOVA DE DENTES PORTATIL FLOSSERBRUSH TO GO", sku: "130-118", status: "Ativo" },
+    { descricao: "EW-ID7 XS ESCOVA INTERDENTAL 0.42MM", sku: "300-331", status: "Inativo" },
+    { descricao: "EW-ID7 SSS ESCOVA INTERDENTAL 0.45MM", sku: "300-332", status: "Ativo" },
+    { descricao: "EW-ID7 SS ESCOVA INTERDENTAL 0.5MM", sku: "300-333", status: "Ativo" },
+    { descricao: "EW-ID7 S ESCOVA INTERDENTAL 0.6MM", sku: "300-334", status: "Ativo" },
+    { descricao: "EW-ID7 M ESCOVA INTERDENTAL 0,7MM", sku: "300-335", status: "Ativo" },
+    { descricao: "EW-ID7 L ESCOVA INTERDENTAL 0.8MM", sku: "300-336", status: "Ativo" },
+    { descricao: "EW-ID7.40A ESCOVA INTERDENTAL", sku: "300-381", status: "Ativo" },
+    { descricao: "EW-DISPLAY DE ACRILICO", sku: "400-417", status: "Ativo" },
+    { descricao: "EW-SR75 CREME DENTAL STOP SENSITIVE 75 ML", sku: "500-505", status: "Ativo" },
+    { descricao: "EW-GUM75 CREME DENTAL CARE FORTE 75 ML", sku: "500-510", status: "Ativo" },
+    { descricao: "EW-TW75 CREME DENTAL ANTIPLACA + BRANQUEADOR 75 ML", sku: "500-511", status: "Ativo" },
+    { descricao: "EW-GUM12 CREME DENTAL CARE FORTE 12 ML", sku: "500-520", status: "Inativo" },
+    { descricao: "EW-TW12 CREME DENTAL ANTIPLACA + BRANQUEADOR 12 ML", sku: "500-521", status: "Ativo" },
+    { descricao: "EW KF7 CREME DENTAL INFANTIL FRUCHTLI KIDS 7", sku: "500-532", status: "Ativo" },
+    { descricao: "EW-MR400 ANTISSEPTICO BUCAL FRESH + PROTECT 400 ML", sku: "500-541", status: "Ativo" },
+    { descricao: "EW-MR50 ANTISSEPTICO BUCAL FRESH + PROTECT 50 ML", sku: "500-542", status: "Promocional" },
+    { descricao: "EW-CHX1.2 ENXAQUATORIO 0.00 BUCAL PERIO STOP IRRITATION 300 ML", sku: "500-556", status: "Inativo" },
+    { descricao: "EW-TC4 LIMPADOR DE LINGUA", sku: "700-711", status: "Ativo" },
+    { descricao: "EW-STL3 ESCOVA UNITUFO", sku: "700-731", status: "Ativo" },
+    { descricao: "EW-PCR250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-828", status: "Ativo" },
+    { descricao: "EW-PC70 FITA DENTAL ENCERADA EASY TAPE 70 METROS LIMAO", sku: "800-829", status: "Ativo" },
+    { descricao: "EW-PL70 FITA DENTAL ENCERADA EASY TAPE 70 METROS MENTA", sku: "800-830", status: "Ativo" },
+    { descricao: "EW-PL5 FITA DENTAL ENCERADA EASY TAPE 5 METROS MENTA", sku: "800-831", status: "Promocional" },
+    { descricao: "EW-PL250 DISPENSER FITA DENTAL ENCERADA EASY TAPE 250 METROS", sku: "800-832", status: "Ativo" },
+    { descricao: "EW-PL250 REFIL FITA DENTAL ENCERADA EASY TAPE 250 METROS MENTA", sku: "800-833", status: "Ativo" },
+    { descricao: "EW-BPS50 PICK STICKS", sku: "800-836", status: "Ativo" },
+    { descricao: "EWWF40 FIO DENTAL SOFT WOVEN", sku: "800-850", status: "Ativo" },
+    { descricao: "EW-WF5 FIO SOFT WOVEN 5 METROS CANELA", sku: "800-851", status: "Promocional" },
+    { descricao: "EW-EF25 FIO DENTAL EXPANDING SUPERFLOSS 25 METROS", sku: "800-852", status: "Ativo" },
+    { descricao: "EW-XF50 FIO DENTAL SUPERSOFT FLOSS", sku: "800-853", status: "Ativo" },
+  ];
 
-// Função para aplicar filtro de busca
-const filterTable = () => {
-  const search = document.getElementById('search');
-  const q = normalize(search.value);
-  const rows = document.querySelectorAll('#lista-produtos tr');
-  
-  for (const r of rows) {
-    const txt = normalize(r.innerText);
-    r.style.display = txt.includes(q) ? '' : 'none';
+  // ======= UI REFS =======
+  const tbody = document.getElementById("lista-produtos");
+  const searchEl = document.getElementById("search");
+  const clearBtn = document.getElementById("clearBtn");
+
+  const lockBtn = document.getElementById("lockBtn");
+  const lockIcon = document.getElementById("lockIcon");
+  const lockLabel = document.getElementById("lockLabel");
+
+  const modal = document.getElementById("pwdModal");
+  const pwdInput = document.getElementById("pwdInput");
+  const unlockBtn = document.getElementById("unlockBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const seeBtn = document.getElementById("seeBtn");
+
+  const arrowSku = document.getElementById("arrowSku");
+  const arrowStatus = document.getElementById("arrowStatus");
+
+  // ======= STATE =======
+  const state = {
+    produtos: {},
+    locked: true,
+    query: "",
+    sort: { key: null, dir: "asc" },
+  };
+
+  const PASSWORD = "5674";
+
+  // ======= HELPERS =======
+  const normalize = s => (s ?? "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
+
+  const skuToNumber = (sku) => {
+    const n = String(sku ?? "").replace(/\D/g, "");
+    return n ? parseInt(n, 10) : 0;
+  };
+
+  function autoResize(textarea){
+    textarea.style.height = "auto";
+    textarea.style.height = Math.max(38, textarea.scrollHeight) + "px";
   }
-};
 
-// ======= Configurações =======
-const PASSWORD = '5674';
-const table = document.getElementById('productsTable');
+  function updateSortArrows(){
+    arrowSku.textContent = "⇅";
+    arrowStatus.textContent = "⇅";
+    if (!state.sort.key) return;
+    const ch = state.sort.dir === "asc" ? "▲" : "▼";
+    if (state.sort.key === "sku") arrowSku.textContent = ch;
+    if (state.sort.key === "status") arrowStatus.textContent = ch;
+  }
 
-// ===== Ordenação SKU/Status =====
-const sortState = { 1: null, 2: null };
+  // ======= RENDER =======
+  function getVisibleEntries(){
+    const entries = Object.entries(state.produtos || {});
+    const q = normalize(state.query);
 
-document.querySelectorAll('.sort-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const col = Number(btn.dataset.col);
-    sortState[col] = sortState[col] === 'asc' ? 'desc' : 'asc';
-    const asc = sortState[col] === 'asc';
-
-    const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.rows);
-
-    rows.sort((ra, rb) => {
-      // Para a coluna Status (índice 2), obtemos o valor do select
-      let a, b;
-      
-      if (col === 2) {
-        // Para Status, pegamos o valor selecionado do elemento select
-        a = ra.cells[col].querySelector('select').value;
-        b = rb.cells[col].querySelector('select').value;
-      } else {
-        // Para outras colunas, pegamos o texto
-        a = ra.cells[col].textContent.trim();
-        b = rb.cells[col].textContent.trim();
-      }
-
-      if (col === 1) { // SKU
-        const an = parseInt(a.replace(/\D/g, ''), 10);
-        const bn = parseInt(b.replace(/\D/g, ''), 10);
-        return asc ? an - bn : bn - an;
-      } else {        // Status
-        // Ordenação por texto simples
-        if (asc) {
-          return a.localeCompare(b, 'pt-BR', { sensitivity: 'base' });
-        } else {
-          return b.localeCompare(a, 'pt-BR', { sensitivity: 'base' });
-        }
-      }
+    const filtered = !q ? entries : entries.filter(([id, p]) => {
+      const blob = normalize(`${p.descricao} ${p.sku} ${p.status} ${p.previsao ?? ""}`);
+      return blob.includes(q);
     });
 
-    // Remove todas as linhas e adiciona na nova ordem
-    while (tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
+    if (state.sort.key){
+      const { key, dir } = state.sort;
+      const asc = dir === "asc";
+
+      filtered.sort((a, b) => {
+        const pa = a[1], pb = b[1];
+
+        if (key === "sku"){
+          const an = skuToNumber(pa.sku);
+          const bn = skuToNumber(pb.sku);
+          return asc ? (an - bn) : (bn - an);
+        }
+
+        if (key === "status"){
+          const sa = (pa.status ?? "").toString();
+          const sb = (pb.status ?? "").toString();
+          return asc
+            ? sa.localeCompare(sb, "pt-BR", { sensitivity: "base" })
+            : sb.localeCompare(sa, "pt-BR", { sensitivity: "base" });
+        }
+
+        return 0;
+      });
     }
-    
-    rows.forEach(r => tbody.appendChild(r));
 
-    // Atualiza as setas de ordenação
-    document.querySelectorAll('.sort-btn .arrow').forEach(el => el.textContent = '⇅');
-    btn.querySelector('.arrow').textContent = asc ? '▲' : '▼';
-  });
-});
-// ======= Busca com remoção de acentos =======
-const search = document.getElementById('search');
-const clearBtn = document.getElementById('clearBtn');
-
-const normalize = s => s
-  .toString()
-  .toLowerCase()
-  .normalize('NFD')
-  .replace(/\p{Diacritic}/gu, '');
-
-search.addEventListener('input', filterTable);
-clearBtn.addEventListener('click', () => { 
-  search.value=''; 
-  filterTable(); 
-  search.focus(); 
-});
-
-// ======= Cadeado / Modal =======
-const lockBtn = document.getElementById('lockBtn');
-const lockIcon = document.getElementById('lockIcon');
-const lockLabel = document.getElementById('lockLabel');
-const modal = document.getElementById('pwdModal');
-const pwdInput = document.getElementById('pwdInput');
-const unlockBtn = document.getElementById('unlockBtn');
-const cancelBtn = document.getElementById('cancelBtn');
-const seeBtn = document.getElementById('seeBtn');
-
-function setLocked(state){
-  locked = state;
-  edicaoAtiva = !state;
-  
-  document.querySelectorAll('.status-select').forEach(select => {
-    select.disabled = state;
-  });
-
-  // NOVO: bloquear/desbloquear os inputs de previsão
-  document.querySelectorAll('.previsao-input').forEach(inp => {
-    inp.disabled = state;
-  });
-  
-  lockIcon.innerHTML = state
-    ? '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 1 1 10 0v4"></path>'
-    : '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 1 1 10 0"></path><path d="M17 7v4"></path>';
-  lockLabel.textContent = state ? 'Bloqueado' : 'Desbloqueado';
-  lockBtn.title = state ? 'Desbloquear edição do Status' : 'Bloquear edição do Status';
-}
-
-
-// abre modal
-lockBtn.addEventListener('click', () => {
-  if (!locked){ setLocked(true); return; }
-  modal.classList.add('show');
-  modal.setAttribute('aria-hidden','false');
-  pwdInput.value=''; pwdInput.focus();
-});
-
-// ver/ocultar senha
-seeBtn.addEventListener('click', () => {
-  const t = pwdInput.getAttribute('type') === 'password' ? 'text' : 'password';
-  pwdInput.setAttribute('type', t);
-  seeBtn.textContent = t === 'password' ? 'Ver' : 'Ocultar';
-});
-
-// desbloquear
-unlockBtn.addEventListener('click', () => {
-  if (pwdInput.value === PASSWORD){
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden','true');
-    setLocked(false);
-  } else {
-    alert('Senha incorreta.');
-    pwdInput.select();
+    return filtered;
   }
-});
 
-// cancelar
-cancelBtn.addEventListener('click', () => {
-  modal.classList.remove('show');
-  modal.setAttribute('aria-hidden','true');
-});
+  function render(){
+    const entries = getVisibleEntries();
+    updateSortArrows();
 
-// fecha modal com ESC ou clique fora
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && modal.classList.contains('show')) cancelBtn.click();
-});
-modal.addEventListener('click', e => {
-  if (e.target === modal) cancelBtn.click();
-});
+    if (!entries.length){
+      tbody.innerHTML = `<tr><td colspan="4" class="empty">Nenhum produto encontrado.</td></tr>`;
+      return;
+    }
 
-// Inicializa a aplicação
-let locked = true;
-setLocked(true);
+    const rowsHtml = entries.map(([id, p]) => {
+      const previsao = (p.previsao ?? "").toString();
+      const statusAtual = (p.status ?? "—").toString();
 
-// Inicia o carregamento quando a página estiver pronta
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM carregado, inicializando dados...");
-  inicializarDados();
-});
+      return `
+        <tr data-row-id="${id}">
+          <td>
+            <div class="desc">
+              ${p.descricao ?? ""}
+              <small>• ${statusAtual}</small>
+            </div>
+          </td>
+
+          <td class="sku-col">${p.sku ?? ""}</td>
+
+          <td class="sku-col">
+            <div class="status-dd" data-id="${id}" data-status="${statusAtual}">
+              <button class="status-dd__btn" type="button" ${state.locked ? "disabled" : ""} aria-haspopup="listbox" aria-expanded="false">
+                <span style="display:flex;align-items:center;gap:10px;">
+                  <span class="status-dd__dot" aria-hidden="true"></span>
+                  <span class="status-dd__label">${statusAtual}</span>
+                </span>
+
+                <svg class="status-dd__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+
+              <div class="status-dd__menu" role="listbox">
+                ${["Ativo","Inativo","Promocional","Personalizada"].map(s => `
+                  <button class="status-dd__item" type="button" data-value="${s}" role="option" aria-selected="${(statusAtual===s)}">
+                    <span>${s}</span>
+                    ${(statusAtual===s) ? `<span class="status-dd__check">Selecionado</span>` : `<span class="status-dd__check"></span>`}
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <textarea
+              class="previsao-input"
+              data-id="${id}"
+              placeholder="Sem previsão"
+              ${state.locked ? "disabled" : ""}>${previsao.replaceAll("<","&lt;").replaceAll(">","&gt;")}</textarea>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    tbody.innerHTML = rowsHtml;
+
+    // auto-resize textareas
+    tbody.querySelectorAll(".previsao-input").forEach(autoResize);
+  }
+
+  // ======= SALVAR PREVISÃO (debounce) =======
+  const debounceMap = new Map();
+  function debounceSave(id, value){
+    if (debounceMap.has(id)) clearTimeout(debounceMap.get(id));
+    const t = setTimeout(() => {
+      update(ref(db, `produtos/${id}`), { previsao: value })
+        .catch(err => console.error("Erro ao atualizar previsão:", err));
+    }, 450);
+    debounceMap.set(id, t);
+  }
+
+  tbody.addEventListener("input", (e) => {
+    const el = e.target;
+    if (el.matches(".previsao-input")){
+      autoResize(el);
+      if (state.locked) return;
+      const id = el.dataset.id;
+      debounceSave(id, el.value.trim());
+    }
+  });
+
+  tbody.addEventListener("blur", (e) => {
+    const el = e.target;
+    if (el.matches(".previsao-input")){
+      autoResize(el);
+      if (state.locked) return;
+      const id = el.dataset.id;
+      update(ref(db, `produtos/${id}`), { previsao: el.value.trim() })
+        .catch(err => console.error("Erro ao atualizar previsão:", err));
+    }
+  }, true);
+
+  // ======= DROPDOWN STATUS (custom) =======
+  function closeAllDropdowns(except = null){
+    document.querySelectorAll(".status-dd.open").forEach(dd => {
+      if (except && dd === except) return;
+      dd.classList.remove("open");
+      const btn = dd.querySelector(".status-dd__btn");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  tbody.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".status-dd__btn");
+    const item = e.target.closest(".status-dd__item");
+
+    if (btn){
+      const dd = btn.closest(".status-dd");
+      if (!dd || state.locked) return;
+
+      const isOpen = dd.classList.contains("open");
+      closeAllDropdowns(dd);
+      dd.classList.toggle("open", !isOpen);
+      btn.setAttribute("aria-expanded", String(!isOpen));
+      return;
+    }
+
+    if (item){
+      const dd = item.closest(".status-dd");
+      if (!dd || state.locked) return;
+
+      const id = dd.dataset.id;
+      const novoStatus = item.dataset.value;
+
+      // UI instantânea
+      dd.dataset.status = novoStatus;
+      dd.querySelector(".status-dd__label").textContent = novoStatus;
+
+      dd.querySelectorAll(".status-dd__item").forEach(b => {
+        const sel = b.dataset.value === novoStatus;
+        b.setAttribute("aria-selected", String(sel));
+        const check = b.querySelector(".status-dd__check");
+        if (check) check.textContent = sel ? "Selecionado" : "";
+      });
+
+      closeAllDropdowns();
+
+      try{
+        await update(ref(db, `produtos/${id}`), { status: novoStatus });
+      }catch(err){
+        console.error("Erro ao atualizar status:", err);
+      }
+
+      return;
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".status-dd")) return;
+    closeAllDropdowns();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAllDropdowns();
+  });
+
+  // ======= BUSCA (persistente no state) =======
+  searchEl.addEventListener("input", () => {
+    state.query = searchEl.value;
+    render();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchEl.value = "";
+    state.query = "";
+    render();
+    searchEl.focus();
+  });
+
+  // ======= ORDENAÇÃO (persistente no state) =======
+  document.querySelectorAll(".sort-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.key;
+
+      if (state.sort.key !== key){
+        state.sort.key = key;
+        state.sort.dir = "asc";
+      } else {
+        state.sort.dir = state.sort.dir === "asc" ? "desc" : "asc";
+      }
+
+      render();
+    });
+  });
+
+  // ======= LOCK / MODAL =======
+  function setLocked(isLocked){
+    state.locked = isLocked;
+
+    lockBtn.classList.toggle("unlocked", !isLocked);
+
+    lockIcon.innerHTML = isLocked
+      ? '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a 5 5 0 1 1 10 0v4"></path>'
+      : '<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><path d="M7 11V7a 5 5 0 1 1 10 0"></path><path d="M17 7v4"></path>';
+
+    lockLabel.textContent = isLocked ? "Bloqueado" : "Desbloqueado";
+    lockBtn.title = isLocked ? "Desbloquear edição" : "Bloquear edição";
+
+    // reaplica disabled nos campos
+    render();
+  }
+
+  lockBtn.addEventListener("click", () => {
+    if (!state.locked){ setLocked(true); return; }
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden","false");
+    pwdInput.value = "";
+    pwdInput.focus();
+  });
+
+  seeBtn.addEventListener("click", () => {
+    const t = pwdInput.getAttribute("type") === "password" ? "text" : "password";
+    pwdInput.setAttribute("type", t);
+    seeBtn.textContent = t === "password" ? "Ver" : "Ocultar";
+  });
+
+  unlockBtn.addEventListener("click", () => {
+    if (pwdInput.value === PASSWORD){
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden","true");
+      setLocked(false);
+    } else {
+      alert("Senha incorreta.");
+      pwdInput.select();
+    }
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden","true");
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && modal.classList.contains("show")) cancelBtn.click();
+  });
+  modal.addEventListener("click", e => {
+    if (e.target === modal) cancelBtn.click();
+  });
+
+  // ======= INIT (dados uma vez) =======
+  function inicializarDadosUmaVez(){
+    onValue(produtosRef, (snapshot) => {
+      const dados = snapshot.val();
+      if (!dados || Object.keys(dados).length === 0){
+        const pack = {};
+        produtosIniciais.forEach((p, i) => pack[`produto_${i}`] = p);
+        set(produtosRef, pack).catch(err => console.error("Erro ao inicializar dados:", err));
+      }
+    }, { onlyOnce: true });
+  }
+
+  // ======= REALTIME =======
+  function startRealtime(){
+    onValue(produtosRef, (snapshot) => {
+      state.produtos = snapshot.val() || {};
+      render(); // reaplica filtro e ordenação automaticamente
+    }, (err) => {
+      console.error(err);
+      tbody.innerHTML = `<tr><td colspan="4" class="error">Erro ao carregar dados do Firebase.</td></tr>`;
+    });
+  }
+
+  // ======= GO =======
+  setLocked(true);
+  inicializarDadosUmaVez();
+  startRealtime();
 </script>
 </body>
 </html>
