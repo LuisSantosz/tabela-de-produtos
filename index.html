@@ -21,11 +21,10 @@
     --shadow: 0 18px 50px rgba(0,0,0,.08);
 
     /* Status elegantes */
-   --status-ativo: #16A34A;         /* Verde */
---status-inativo: #EF4444;       /* Vermelho */
---status-promocional: #7C3AED;   /* Roxo */
---status-personalizada: #F59E0B; /* Laranja */
-
+    --status-ativo: #16A34A;         /* Verde */
+    --status-inativo: #EF4444;       /* Vermelho */
+    --status-promocional: #7C3AED;   /* Roxo */
+    --status-personalizada: #F59E0B; /* Laranja */
 
     --focus: 0 0 0 4px rgba(0,0,0,.12);
   }
@@ -240,11 +239,14 @@
     color:#0B0B0E;
   }
   .previsao-input:focus{ border-color: #000; box-shadow: var(--focus); }
+
+  /* ✅ Mantém vivo mesmo bloqueado (sem opacity que “lava” tudo) */
   .previsao-input:disabled{
     cursor:not-allowed;
-    opacity:.65;
+    opacity: 1;
     background: rgba(245,245,247,.85);
   }
+
   .previsao-input::placeholder{ color: rgba(107,114,128,.85); }
 
   .hint{
@@ -358,7 +360,13 @@
     box-shadow: var(--focus);
     border-color: #000;
   }
- 
+
+  /* ✅ Mantém vivo mesmo bloqueado */
+  .status-dd__btn:disabled{
+    cursor:not-allowed;
+    opacity: 1;
+    filter: grayscale(0);
+  }
 
   .status-dd__dot{
     width:10px; height:10px;
@@ -424,36 +432,34 @@
     color: rgba(0,0,0,.55);
   }
 
-  /* Cores P&B por status */
-  /* ===== Cores por status (colorido, mas ainda elegante) ===== */
-.status-dd[data-status="Ativo"] .status-dd__btn{
-  background: rgba(22,163,74,.10);
-  border-color: rgba(22,163,74,.45);
-  color: var(--status-ativo);
-}
-.status-dd[data-status="Ativo"] .status-dd__dot{ background: var(--status-ativo); }
+  /* ===== Cores por status (colorido, mas elegante) ===== */
+  .status-dd[data-status="Ativo"] .status-dd__btn{
+    background: rgba(22,163,74,.10);
+    border-color: rgba(22,163,74,.45);
+    color: var(--status-ativo);
+  }
+  .status-dd[data-status="Ativo"] .status-dd__dot{ background: var(--status-ativo); }
 
-.status-dd[data-status="Inativo"] .status-dd__btn{
-  background: rgba(239,68,68,.10);
-  border-color: rgba(239,68,68,.45);
-  color: var(--status-inativo);
-}
-.status-dd[data-status="Inativo"] .status-dd__dot{ background: var(--status-inativo); }
+  .status-dd[data-status="Inativo"] .status-dd__btn{
+    background: rgba(239,68,68,.10);
+    border-color: rgba(239,68,68,.45);
+    color: var(--status-inativo);
+  }
+  .status-dd[data-status="Inativo"] .status-dd__dot{ background: var(--status-inativo); }
 
-.status-dd[data-status="Promocional"] .status-dd__btn{
-  background: rgba(124,58,237,.10);
-  border-color: rgba(124,58,237,.45);
-  color: var(--status-promocional);
-}
-.status-dd[data-status="Promocional"] .status-dd__dot{ background: var(--status-promocional); }
+  .status-dd[data-status="Promocional"] .status-dd__btn{
+    background: rgba(124,58,237,.10);
+    border-color: rgba(124,58,237,.45);
+    color: var(--status-promocional);
+  }
+  .status-dd[data-status="Promocional"] .status-dd__dot{ background: var(--status-promocional); }
 
-.status-dd[data-status="Personalizada"] .status-dd__btn{
-  background: rgba(245,158,11,.12);
-  border-color: rgba(245,158,11,.50);
-  color: var(--status-personalizada);
-}
-.status-dd[data-status="Personalizada"] .status-dd__dot{ background: var(--status-personalizada); }
-
+  .status-dd[data-status="Personalizada"] .status-dd__btn{
+    background: rgba(245,158,11,.12);
+    border-color: rgba(245,158,11,.50);
+    color: var(--status-personalizada);
+  }
+  .status-dd[data-status="Personalizada"] .status-dd__dot{ background: var(--status-personalizada); }
 
 </style>
 </head>
@@ -660,6 +666,9 @@
     sort: { key: null, dir: "asc" },
   };
 
+  // ✅ CONTROLE DE EDIÇÃO (não perder foco no textarea)
+  let editingPrevisaoId = null;
+
   const PASSWORD = "5674";
 
   // ======= HELPERS =======
@@ -736,8 +745,14 @@
     }
 
     const rowsHtml = entries.map(([id, p]) => {
-      const previsao = (p.previsao ?? "").toString();
       const statusAtual = (p.status ?? "—").toString();
+
+      // ✅ Se está editando este textarea, preserva o valor atual do DOM
+      const previsao = (
+        editingPrevisaoId === id
+          ? (tbody.querySelector(`.previsao-input[data-id="${id}"]`)?.value ?? (p.previsao ?? ""))
+          : (p.previsao ?? "")
+      ).toString();
 
       return `
         <tr data-row-id="${id}">
@@ -801,6 +816,22 @@
     }, 450);
     debounceMap.set(id, t);
   }
+
+  // ✅ Marcar quando começa a editar (não deixar o realtime render derrubar o foco)
+  tbody.addEventListener("focusin", (e) => {
+    const el = e.target;
+    if (el.matches(".previsao-input")) {
+      editingPrevisaoId = el.dataset.id;
+    }
+  });
+
+  // ✅ Liberar quando sai do campo
+  tbody.addEventListener("focusout", (e) => {
+    const el = e.target;
+    if (el.matches(".previsao-input")) {
+      editingPrevisaoId = null;
+    }
+  });
 
   tbody.addEventListener("input", (e) => {
     const el = e.target;
@@ -985,7 +1016,11 @@
   function startRealtime(){
     onValue(produtosRef, (snapshot) => {
       state.produtos = snapshot.val() || {};
-      render(); // reaplica filtro e ordenação automaticamente
+
+      // ✅ NÃO re-renderiza enquanto estiver editando a previsão
+      if (!editingPrevisaoId) {
+        render(); // reaplica filtro e ordenação automaticamente
+      }
     }, (err) => {
       console.error(err);
       tbody.innerHTML = `<tr><td colspan="4" class="error">Erro ao carregar dados do Firebase.</td></tr>`;
