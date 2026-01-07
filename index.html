@@ -512,6 +512,68 @@
     margin-top: 14px;
     flex-wrap: wrap;
   }
+
+  /* ============================================================
+     ✅ MOBILE BONITO: tabela vira "cards" sem mudar o HTML
+     ============================================================ */
+  @media (max-width: 860px){
+    .container{ padding: 0 12px; }
+
+    table, thead, tbody, th, td, tr { display:block; }
+    thead{ display:none; }
+
+    tbody tr{
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(229,231,235,.95);
+      border-radius: 18px;
+      margin: 10px 0;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+      padding: 14px 12px;
+    }
+
+    tbody td{
+      border-top: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    /* descrição no topo */
+    tbody td:first-child{ margin-top: 0; }
+
+    /* SKU vira badge */
+    td.sku-col{
+      text-align:left;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size: 13px;
+    }
+    td.sku-col::before{
+      content:"SKU";
+      font-weight:900;
+      color: rgba(0,0,0,.6);
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    /* Status e previsão ocupam 100% */
+    .status-dd{ max-width: 100%; margin: 0; }
+    .previsao-input{ min-height: 44px; border-radius: 14px; }
+
+    /* ações na direita */
+    .row-actions{ justify-content:flex-end; }
+
+    /* deixa o texto mais “mobile” */
+    .desc{ font-size: 14px; line-height: 1.2; }
+    .desc small{ font-size: 12px; }
+  }
+
+  @media (max-width: 420px){
+    .pill-btn{ padding:10px 10px; }
+    .search-input{ padding: 14px 44px 14px 42px; }
+  }
 </style>
 </head>
 
@@ -783,6 +845,9 @@
   let editingPrevisaoId = null;
   let previsaoSaveTimer = null;
 
+  // ✅ (NOVO) guarda o último snapshot enquanto você edita, e aplica assim que você sai do campo
+  let pendingSnapshot = null;
+
   // ======= HELPERS =======
   const normalize = s => (s ?? "")
     .toString()
@@ -876,7 +941,7 @@
       ).toString();
 
       return `
-        <tr data-row-id="${id}">
+        <tr data-row-id="${escHtml(id)}">
           <td>
             <div class="desc">
               ${escHtml(p.descricao ?? "")}
@@ -935,29 +1000,38 @@
     }).join("");
 
     tbody.innerHTML = rowsHtml;
-
-    // auto-resize textareas
     tbody.querySelectorAll(".previsao-input").forEach(autoResize);
   }
 
-  // ======= PREVISÃO (corrigido: não perder seleção) =======
+  // ======= PREVISÃO (corrigido 100%: não perder seleção) =======
   tbody.addEventListener("focusin", (e) => {
     const el = e.target;
     if (el.matches(".previsao-input")) {
       editingPrevisaoId = el.dataset.id;
+      // enquanto edita, a tabela não será re-renderizada pelo realtime
     }
   });
 
   tbody.addEventListener("focusout", (e) => {
     const el = e.target;
-    if (el.matches(".previsao-input")) {
-      // salva ao sair do campo (final)
-      const id = el.dataset.id;
-      editingPrevisaoId = null;
+    if (!el.matches(".previsao-input")) return;
 
-      if (state.locked) return;
+    const id = el.dataset.id;
+
+    // salva ao sair do campo
+    if (!state.locked){
       update(ref(db, `produtos/${id}`), { previsao: (el.value ?? "").trim() })
         .catch(err => console.error("Erro ao salvar previsão:", err));
+    }
+
+    // libera edição
+    editingPrevisaoId = null;
+
+    // ✅ aplica o snapshot que chegou enquanto você digitava
+    if (pendingSnapshot){
+      state.produtos = pendingSnapshot;
+      pendingSnapshot = null;
+      render();
     }
   });
 
@@ -999,6 +1073,7 @@
       const p = state.produtos?.[id];
       const nome = p?.descricao ? `\n\n${p.descricao}` : "";
       if (!confirm(`Excluir este produto?${nome}\n\nEssa ação não pode ser desfeita.`)) return;
+
       try{
         await remove(ref(db, `produtos/${id}`));
       }catch(err){
@@ -1197,7 +1272,6 @@
     addSaveBtn.disabled = true;
 
     try{
-      // garante padrão produto_N (igual seu Firebase atual)
       const snap = await get(produtosRef);
       const dados = snap.val() || {};
       const id = getNextProdutoId(dados);
@@ -1233,12 +1307,17 @@
   // ======= REALTIME =======
   function startRealtime(){
     onValue(produtosRef, (snapshot) => {
-      state.produtos = snapshot.val() || {};
+      const incoming = snapshot.val() || {};
 
-      // ✅ não re-renderiza enquanto o usuário está editando previsão (não perder seleção)
-      if (!editingPrevisaoId) {
-        render();
+      // ✅ enquanto edita previsão: NÃO re-renderiza (não derruba foco)
+      // mas guarda o snapshot para aplicar assim que você sair do campo
+      if (editingPrevisaoId){
+        pendingSnapshot = incoming;
+        return;
       }
+
+      state.produtos = incoming;
+      render();
     }, (err) => {
       console.error(err);
       tbody.innerHTML = `<tr><td colspan="5" class="error">Erro ao carregar dados do Firebase.</td></tr>`;
