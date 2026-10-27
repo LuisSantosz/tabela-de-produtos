@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Produtos Edel White 2026</title>
+<title>Produtos Edel White e New Dental 2027</title>
 
 <style>
   :root{
@@ -64,6 +64,42 @@
     font-size: clamp(22px, 3.2vw, 36px);
     color: var(--brand-dark);
     line-height:1.1;
+  }
+  .brand-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:48px;
+    flex-wrap:wrap;
+  }
+  .brand-title__text{
+    font-weight:900;
+    letter-spacing:-.02em;
+    font-size:clamp(22px, 3.2vw, 36px);
+    color:var(--brand-dark);
+    line-height:1;
+  }
+  .brand-title__logo{
+    display:block;
+    flex:0 0 auto;
+    background-repeat:no-repeat;
+    background-size:100% auto;
+    background-position:center center;
+  }
+  .brand-title__logo--edel{
+    width:174px;
+    height:44px;
+    background-image:url("assets/edel-white.png");
+  }
+  .brand-title__logo--new{
+    width:150px;
+    height:44px;
+    background-image:url("assets/new-dental.jpg");
+  }
+  .brand-title__connector{
+   font-size:clamp(22px, 3.2vw, 36px);
+    font-weight:800;
+    color:#0B0B0E;
   }
   .subtitle{
     margin:0;
@@ -456,6 +492,8 @@
     box-shadow:none;
   }
   .icon-btn svg{ width:18px; height:18px; }
+  .btn-edit:not(:disabled){ color:#111827; }
+  .btn-delete:not(:disabled){ color:#B91C1C; }
 
   /* Modais */
   .modal{
@@ -641,6 +679,11 @@
     }
     .brandblock{ min-width:0; gap:4px; }
     .title{ font-size:24px; }
+    .brand-title{ gap:7px; min-height:40px; }
+    .brand-title__text{ font-size:22px; }
+    .brand-title__logo--edel{ width:132px; height:36px; }
+    .brand-title__logo--new{ width:112px; height:36px; }
+    .brand-title__connector{ font-size:18px; }
     .subtitle{ font-size:12px; line-height:1.35; }
     .actions{
       display:grid;
@@ -753,6 +796,11 @@
 
   @media (max-width: 420px){
     .title{ font-size:22px; }
+    .brand-title{ display:grid; grid-template-columns:112px 16px 90px auto; column-gap:6px; row-gap:2px; }
+    .brand-title__text:first-child{ grid-column:1 / -1; }
+    .brand-title__logo--edel{ width:112px; }
+    .brand-title__logo--new{ width:90px; }
+    .brand-title__text:last-child{ font-size:20px; }
     .pill-btn{ padding:10px 8px; font-size:12px; gap:7px; }
     .search-input{ padding: 14px 44px 14px 42px; }
     tbody tr{ padding:14px 12px; border-radius:18px; }
@@ -764,7 +812,13 @@
   <div class="container">
     <div class="topbar">
       <div class="brandblock">
-        <h1 class="title">Produtos <span class="title-accent">Edel White 2026</span></h1>
+        <h1 class="brand-title" aria-label="Produtos Edel White e New Dental 2027">
+          <span class="brand-title__text">Produtos</span>
+          <span class="brand-title__logo brand-title__logo--edel" role="img" aria-label="Edel White Swiss"></span>
+          <span class="brand-title__connector" aria-hidden="true">e</span>
+          <span class="brand-title__logo brand-title__logo--new" role="img" aria-label="New Dental Care"></span>
+          <span class="brand-title__text">2027</span>
+        </h1>
         <p class="subtitle">Atualizações diárias dos materiais que estão em estoque</p>
       </div>
 
@@ -827,7 +881,7 @@
     </div>
 
     <p class="hint">
-      Dica: clique no cadeado para desbloquear ou bloquear a edição de <b>Status</b>, <b>Previsão</b>, imagens, inclusão e exclusão.
+      Dica: clique no cadeado para desbloquear ou bloquear a edição de <b>Descrição</b>, <b>SKU</b>, <b>Status</b>, <b>Previsão</b>, imagens, inclusão e exclusão.
       A ordenação e o filtro permanecem mesmo após salvar.
     </p>
   </div>
@@ -836,7 +890,7 @@
   <div id="pwdModal" class="modal" aria-hidden="true">
     <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
       <h3 id="dlgTitle">Desbloquear edição</h3>
-      <p>Informe a senha para editar <b>Status</b>, <b>Previsão</b> e gerenciar produtos.</p>
+      <p>Informe a senha para editar <b>Descrição</b>, <b>SKU</b>, <b>Status</b>, <b>Previsão</b> e gerenciar produtos.</p>
 
       <div class="field">
         <input id="pwdInput" class="input" type="password" placeholder="Senha" />
@@ -885,6 +939,29 @@
       <div class="actions-row">
         <button id="addCancelBtn" class="btn ghost" type="button">Cancelar</button>
         <button id="addSaveBtn" class="btn primary" type="button">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Editar Produto -->
+  <div id="editModal" class="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <h3 id="editTitle">Editar produto</h3>
+      <p>Altere a descrição e o SKU. Os demais dados do produto serão preservados.</p>
+
+      <div class="field-col">
+        <label class="label" for="editDescricao">Descrição</label>
+        <input id="editDescricao" class="input" type="text" autocomplete="off" />
+      </div>
+
+      <div class="field-col">
+        <label class="label" for="editSku">SKU</label>
+        <input id="editSku" class="input" type="text" autocomplete="off" />
+      </div>
+
+      <div class="actions-row">
+        <button id="editCancelBtn" class="btn ghost" type="button">Cancelar</button>
+        <button id="editSaveBtn" class="btn primary" type="button">Salvar alterações</button>
       </div>
     </div>
   </div>
@@ -1030,6 +1107,12 @@
   const addCancelBtn = document.getElementById("addCancelBtn");
   const addSaveBtn = document.getElementById("addSaveBtn");
 
+  const editModal = document.getElementById("editModal");
+  const editDescricao = document.getElementById("editDescricao");
+  const editSku = document.getElementById("editSku");
+  const editCancelBtn = document.getElementById("editCancelBtn");
+  const editSaveBtn = document.getElementById("editSaveBtn");
+
   const arrowSku = document.getElementById("arrowSku");
   const arrowStatus = document.getElementById("arrowStatus");
 
@@ -1050,6 +1133,7 @@
     query: "",
     sort: { key: null, dir: "asc" },
     imageProductId: null,
+    editingProductId: null,
   };
 
   const PASSWORD = "5674";
@@ -1202,6 +1286,12 @@
 
           <td class="actions-col">
             <div class="row-actions">
+              <button class="icon-btn btn-edit" type="button" title="Editar descrição e SKU" aria-label="Editar ${escHtml(p.descricao ?? "produto")}" data-id="${escHtml(id)}" ${state.locked ? "disabled" : ""}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                </svg>
+              </button>
               <button class="icon-btn btn-delete" type="button" title="Excluir produto" data-id="${escHtml(id)}" ${state.locked ? "disabled" : ""}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M3 6h18"></path>
@@ -1282,11 +1372,18 @@
   tbody.addEventListener("click", async (e) => {
     const btn = e.target.closest(".status-dd__btn");
     const item = e.target.closest(".status-dd__item");
+    const editBtn = e.target.closest(".btn-edit");
     const delBtn = e.target.closest(".btn-delete");
     const viewBtn = e.target.closest(".btn-view-image");
 
     if (viewBtn){
       openProductImageModal(viewBtn.dataset.id);
+      return;
+    }
+
+    if (editBtn){
+      if (state.locked) return;
+      openEditModal(editBtn.dataset.id);
       return;
     }
 
@@ -1632,6 +1729,75 @@
       alert("Não foi possível adicionar. Veja o console.");
     }finally{
       addSaveBtn.disabled = false;
+    }
+  });
+
+  // ======= EDITAR PRODUTO =======
+  function openEditModal(id){
+    if (state.locked) return;
+    const product = state.produtos?.[id];
+    if (!product) return;
+
+    state.editingProductId = id;
+    editDescricao.value = product.descricao || "";
+    editSku.value = product.sku || "";
+    editModal.classList.add("show");
+    editModal.setAttribute("aria-hidden", "false");
+    editDescricao.focus();
+    editDescricao.select();
+  }
+
+  function closeEditModal(){
+    editModal.classList.remove("show");
+    editModal.setAttribute("aria-hidden", "true");
+    state.editingProductId = null;
+  }
+
+  editCancelBtn.addEventListener("click", closeEditModal);
+  editModal.addEventListener("click", event => {
+    if (event.target === editModal) closeEditModal();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && editModal.classList.contains("show")) closeEditModal();
+  });
+  [editDescricao, editSku].forEach(input => {
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter") editSaveBtn.click();
+    });
+  });
+
+  editSaveBtn.addEventListener("click", async () => {
+    const id = state.editingProductId;
+    if (state.locked || !id) return;
+
+    const descricao = editDescricao.value.trim();
+    const sku = editSku.value.trim();
+    if (!descricao || !sku){
+      alert("Preencha a Descrição e o SKU.");
+      return;
+    }
+
+    const duplicatedSku = Object.entries(state.produtos || {}).some(([otherId, product]) =>
+      otherId !== id && normalize(product?.sku) === normalize(sku)
+    );
+    if (duplicatedSku){
+      alert("Este SKU já está cadastrado em outro produto.");
+      editSku.focus();
+      editSku.select();
+      return;
+    }
+
+    editSaveBtn.disabled = true;
+    editSaveBtn.textContent = "Salvando…";
+    try{
+      await update(ref(db, `produtos/${id}`), { descricao, sku });
+      closeEditModal();
+    }catch(error){
+      console.error("Erro ao editar produto:", error);
+      alert("Não foi possível salvar as alterações.");
+    }finally{
+      editSaveBtn.disabled = false;
+      editSaveBtn.textContent = "Salvar alterações";
     }
   });
 
